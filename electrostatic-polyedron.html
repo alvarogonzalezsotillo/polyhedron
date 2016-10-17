@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2016-10-17 lun 11:12 -->
+<!-- 2016-10-17 lun 11:33 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="viewport" content="width=device-width, initial-scale=1" />
 <title></title>
@@ -181,11 +181,8 @@ for the JavaScript code in this tag.
 <ul>
 <li><a href="#orgheadline6">4.1. Características del lenguaje</a></li>
 <li><a href="#orgheadline7">4.2. Cálculo de la posición final de las cargas</a></li>
-<li><a href="#orgheadline9">4.3. Cálculo del cubrimiento convexo</a>
-<ul>
-<li><a href="#orgheadline8">4.3.1. Renderización del poliedros</a></li>
-</ul>
-</li>
+<li><a href="#orgheadline8">4.3. Cálculo del cubrimiento convexo</a></li>
+<li><a href="#orgheadline9">4.4. Renderización de poliedros</a></li>
 </ul>
 </li>
 </ul>
@@ -273,9 +270,12 @@ El algoritmo utilizado para determinar las aristas exteriores del poliedro es el
 <div id="outline-container-orgheadline5" class="outline-2">
 <h2 id="orgheadline5"><span class="section-number-2">3</span> Ejemplos de poliedros para \(N=4..24\)</h2>
 <div class="outline-text-2" id="text-3">
+<p>
+Los ficheros <code>STL</code> de definición de cada poliedro pueden generarse con el siguiente <i>shellscript</i>
+</p>
 <div class="org-src-container">
 <label class="org-src-name">Generación de los sólidos de ejemplo</label>
-<pre class="src src-sh"><span style="color: #cd853f;">#</span><span style="color: #cd853f;">!/bin/</span><span style="color: #20b2aa; font-weight: bold;">sh</span><span style="color: #cd853f;"> -x</span>
+<pre class="src src-sh"><span style="color: #cd853f;">#</span><span style="color: #cd853f;">!/bin/</span><span style="color: #20b2aa; font-weight: bold;">sh</span>
 <span style="color: #9acd32;">SCADFILE</span>=./electrostatic-polyedron.scad
 
 <span style="color: #00ff7f;">poliedro</span> <span style="color: #8c8c8c;">()</span> <span style="color: #8c8c8c;">{</span>
@@ -284,15 +284,49 @@ El algoritmo utilizado para determinar las aristas exteriores del poliedro es el
 <span style="color: #8c8c8c;">}</span>
 <span style="color: #20b2aa; font-weight: bold;">for</span> i<span style="color: #20b2aa; font-weight: bold;"> in</span> $<span style="color: #8c8c8c;">(</span>seq 4 24<span style="color: #8c8c8c;">)</span>
 <span style="color: #20b2aa; font-weight: bold;">do</span>
-  gecho Generando poliedro $<span style="color: #9acd32;">i</span>
+  <span style="color: #76ee00;">echo</span> Generando poliedro $<span style="color: #9acd32;">i</span>
   poliedro $<span style="color: #9acd32;">i</span>
 <span style="color: #20b2aa; font-weight: bold;">done</span>
 </pre>
 </div>
 
-<p>
-Estos ficheros se han subido a <a href="http://www.sculpteo.com">Sculpteo.com</a>
-</p>
+
+<div class="org-src-container">
+<label class="org-src-name">Generación de los sólidos de ejemplo</label>
+<pre class="src src-sh"><span style="color: #9acd32;">STLFILE</span>=<span style="color: #ffa07a;">"poliedro-10.stl"</span>;
+<span style="color: #9acd32;">ANGLE</span>=20;
+
+<span style="color: #00ff7f;">rotate</span><span style="color: #8c8c8c;">(</span><span style="color: #93a8c6;">[</span>ANGLE,0,0<span style="color: #93a8c6;">]</span><span style="color: #8c8c8c;">){</span>
+     translate<span style="color: #93a8c6;">(</span><span style="color: #b0b1a3;">[</span>0,0,0<span style="color: #b0b1a3;">]</span><span style="color: #93a8c6;">)</span> <span style="color: #93a8c6;">{</span>
+          import<span style="color: #b0b1a3;">(</span>STLFILE<span style="color: #b0b1a3;">)</span>;
+     <span style="color: #93a8c6;">}</span>
+<span style="color: #8c8c8c;">}</span>
+</pre>
+</div>
+
+
+<div class="org-src-container">
+<label class="org-src-name">Generación de los sólidos de ejemplo</label>
+<pre class="src src-sh"><span style="color: #cd853f;">#</span><span style="color: #cd853f;">!/bin/</span><span style="color: #20b2aa; font-weight: bold;">sh</span><span style="color: #cd853f;"> -x</span>
+<span style="color: #9acd32;">SCADFILE</span>=./view-stl.scad
+
+<span style="color: #00ff7f;">imagenes</span><span style="color: #8c8c8c;">()</span> <span style="color: #8c8c8c;">{</span>
+  <span style="color: #76ee00;">local</span> <span style="color: #9acd32;">N</span>=$<span style="color: #9acd32;">1</span>
+  <span style="color: #76ee00;">local</span> <span style="color: #9acd32;">BIG</span>=poliedro-$<span style="color: #9acd32;">N</span>.png
+  <span style="color: #76ee00;">local</span> <span style="color: #9acd32;">SMALL</span>=poliedro-$<span style="color: #9acd32;">N</span>-small.png
+  openscad -o $<span style="color: #9acd32;">BIG</span> -D <span style="color: #9acd32;">STLFILE</span>=poliedro-$<span style="color: #9acd32;">N</span>.stl <span style="color: #ffa07a;">"$SCADFILE"</span>
+  convert -resize 128x128 $<span style="color: #9acd32;">BIG</span> $<span style="color: #9acd32;">SMALL</span>
+<span style="color: #8c8c8c;">}</span>
+<span style="color: #20b2aa; font-weight: bold;">for</span> i<span style="color: #20b2aa; font-weight: bold;"> in</span> $<span style="color: #8c8c8c;">(</span>seq 4 24<span style="color: #8c8c8c;">)</span>
+<span style="color: #20b2aa; font-weight: bold;">do</span>
+  <span style="color: #76ee00;">echo</span> Generando im&#225;genes de poliedro $<span style="color: #9acd32;">i</span>
+  imagenes $<span style="color: #9acd32;">i</span>
+<span style="color: #20b2aa; font-weight: bold;">done</span>
+</pre>
+</div>
+
+
+
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -310,7 +344,7 @@ Estos ficheros se han subido a <a href="http://www.sculpteo.com">Sculpteo.com</a
 <th scope="col" class="org-right">Vértices</th>
 <th scope="col" class="org-left">Sculpteo ID</th>
 <th scope="col" class="org-left">Enlace</th>
-<th scope="col" class="org-left">nada</th>
+<th scope="col" class="org-left">Imagen</th>
 </tr>
 </thead>
 <tbody>
@@ -318,147 +352,147 @@ Estos ficheros se han subido a <a href="http://www.sculpteo.com">Sculpteo.com</a
 <td class="org-right">4</td>
 <td class="org-left">hwBvUUPS</td>
 <td class="org-left"><a href="http://www.sculpteo.com/embed/design/hwBvUUPS">http://www.sculpteo.com/embed/design/hwBvUUPS</a></td>
-<td class="org-left"><img src="poliedro-4.png" alt="poliedro-4.png" /></td>
+<td class="org-left"><img src="poliedro-4-small.png" alt="poliedro-4-small.png" /></td>
 </tr>
 
 <tr>
 <td class="org-right">5</td>
 <td class="org-left">zywXZ2Vv</td>
 <td class="org-left"><a href="http://www.sculpteo.com/embed/design/zywXZ2Vv">http://www.sculpteo.com/embed/design/zywXZ2Vv</a></td>
-<td class="org-left"><img src="poliedro-5.png" alt="poliedro-5.png" /></td>
+<td class="org-left"><img src="poliedro-5-small.png" alt="poliedro-5-small.png" /></td>
 </tr>
 
 <tr>
 <td class="org-right">6</td>
 <td class="org-left">Hd6M6qdV</td>
 <td class="org-left"><a href="http://www.sculpteo.com/embed/design/Hd6M6qdV">http://www.sculpteo.com/embed/design/Hd6M6qdV</a></td>
-<td class="org-left"><img src="poliedro-6.png" alt="poliedro-6.png" /></td>
+<td class="org-left"><img src="poliedro-6-small.png" alt="poliedro-6-small.png" /></td>
 </tr>
 
 <tr>
 <td class="org-right">7</td>
 <td class="org-left">e3Z7njee</td>
 <td class="org-left"><a href="http://www.sculpteo.com/embed/design/e3Z7njee">http://www.sculpteo.com/embed/design/e3Z7njee</a></td>
-<td class="org-left"><img src="poliedro-7.png" alt="poliedro-7.png" /></td>
+<td class="org-left"><img src="poliedro-7-small.png" alt="poliedro-7-small.png" /></td>
 </tr>
 
 <tr>
 <td class="org-right">8</td>
 <td class="org-left">zF9bWGAC</td>
 <td class="org-left"><a href="http://www.sculpteo.com/embed/design/zF9bWGAC">http://www.sculpteo.com/embed/design/zF9bWGAC</a></td>
-<td class="org-left"><img src="poliedro-8.png" alt="poliedro-8.png" /></td>
+<td class="org-left"><img src="poliedro-8-small.png" alt="poliedro-8-small.png" /></td>
 </tr>
 
 <tr>
 <td class="org-right">9</td>
 <td class="org-left">MTTJEqKN</td>
 <td class="org-left"><a href="http://www.sculpteo.com/embed/design/MTTJEqKN">http://www.sculpteo.com/embed/design/MTTJEqKN</a></td>
-<td class="org-left"><img src="poliedro-9.png" alt="poliedro-9.png" /></td>
+<td class="org-left"><img src="poliedro-9-small.png" alt="poliedro-9-small.png" /></td>
 </tr>
 
 <tr>
 <td class="org-right">10</td>
 <td class="org-left">XHaVXMzy</td>
 <td class="org-left"><a href="http://www.sculpteo.com/embed/design/XHaVXMzy">http://www.sculpteo.com/embed/design/XHaVXMzy</a></td>
-<td class="org-left"><img src="poliedro-10.png" alt="poliedro-10.png" /></td>
+<td class="org-left"><img src="poliedro-10-small.png" alt="poliedro-10-small.png" /></td>
 </tr>
 
 <tr>
 <td class="org-right">11</td>
 <td class="org-left">cTu8ZKCy</td>
 <td class="org-left"><a href="http://www.sculpteo.com/embed/design/cTu8ZKCy">http://www.sculpteo.com/embed/design/cTu8ZKCy</a></td>
-<td class="org-left"><img src="poliedro-11.png" alt="poliedro-11.png" /></td>
+<td class="org-left"><img src="poliedro-11-small.png" alt="poliedro-11-small.png" /></td>
 </tr>
 
 <tr>
 <td class="org-right">12</td>
 <td class="org-left">XHZQE7ST</td>
 <td class="org-left"><a href="http://www.sculpteo.com/embed/design/XHZQE7ST">http://www.sculpteo.com/embed/design/XHZQE7ST</a></td>
-<td class="org-left"><img src="poliedro-12.png" alt="poliedro-12.png" /></td>
+<td class="org-left"><img src="poliedro-12-small.png" alt="poliedro-12-small.png" /></td>
 </tr>
 
 <tr>
 <td class="org-right">13</td>
 <td class="org-left">A9fQg8jN</td>
 <td class="org-left"><a href="http://www.sculpteo.com/embed/design/A9fQg8jN">http://www.sculpteo.com/embed/design/A9fQg8jN</a></td>
-<td class="org-left"><img src="poliedro-13.png" alt="poliedro-13.png" /></td>
+<td class="org-left"><img src="poliedro-13-small.png" alt="poliedro-13-small.png" /></td>
 </tr>
 
 <tr>
 <td class="org-right">14</td>
 <td class="org-left">BhTtJYyY</td>
 <td class="org-left"><a href="http://www.sculpteo.com/embed/design/BhTtJYyY">http://www.sculpteo.com/embed/design/BhTtJYyY</a></td>
-<td class="org-left"><img src="poliedro-14.png" alt="poliedro-14.png" /></td>
+<td class="org-left"><img src="poliedro-14-small.png" alt="poliedro-14-small.png" /></td>
 </tr>
 
 <tr>
 <td class="org-right">15</td>
 <td class="org-left">kyYvU3Xd</td>
 <td class="org-left"><a href="http://www.sculpteo.com/embed/design/kyYvU3Xd">http://www.sculpteo.com/embed/design/kyYvU3Xd</a></td>
-<td class="org-left"><img src="poliedro-15.png" alt="poliedro-15.png" /></td>
+<td class="org-left"><img src="poliedro-15-small.png" alt="poliedro-15-small.png" /></td>
 </tr>
 
 <tr>
 <td class="org-right">16</td>
 <td class="org-left">HZBAytyz</td>
 <td class="org-left"><a href="http://www.sculpteo.com/embed/design/HZBAytyz">http://www.sculpteo.com/embed/design/HZBAytyz</a></td>
-<td class="org-left"><img src="poliedro-16.png" alt="poliedro-16.png" /></td>
+<td class="org-left"><img src="poliedro-16-small.png" alt="poliedro-16-small.png" /></td>
 </tr>
 
 <tr>
 <td class="org-right">17</td>
 <td class="org-left">BjZoe6GZ</td>
 <td class="org-left"><a href="http://www.sculpteo.com/embed/design/BjZoe6GZ">http://www.sculpteo.com/embed/design/BjZoe6GZ</a></td>
-<td class="org-left"><img src="poliedro-17.png" alt="poliedro-17.png" /></td>
+<td class="org-left"><img src="poliedro-17-small.png" alt="poliedro-17-small.png" /></td>
 </tr>
 
 <tr>
 <td class="org-right">18</td>
 <td class="org-left">dPc6d8nD</td>
 <td class="org-left"><a href="http://www.sculpteo.com/embed/design/dPc6d8nD">http://www.sculpteo.com/embed/design/dPc6d8nD</a></td>
-<td class="org-left"><img src="poliedro-18.png" alt="poliedro-18.png" /></td>
+<td class="org-left"><img src="poliedro-18-small.png" alt="poliedro-18-small.png" /></td>
 </tr>
 
 <tr>
 <td class="org-right">19</td>
 <td class="org-left">PUog4ujR</td>
 <td class="org-left"><a href="http://www.sculpteo.com/embed/design/PUog4ujR">http://www.sculpteo.com/embed/design/PUog4ujR</a></td>
-<td class="org-left"><img src="poliedro-19.png" alt="poliedro-19.png" /></td>
+<td class="org-left"><img src="poliedro-19-small.png" alt="poliedro-19-small.png" /></td>
 </tr>
 
 <tr>
 <td class="org-right">20</td>
 <td class="org-left">Hfhs8x45</td>
 <td class="org-left"><a href="http://www.sculpteo.com/embed/design/Hfhs8x45">http://www.sculpteo.com/embed/design/Hfhs8x45</a></td>
-<td class="org-left"><img src="poliedro-20.png" alt="poliedro-20.png" /></td>
+<td class="org-left"><img src="poliedro-20-small.png" alt="poliedro-20-small.png" /></td>
 </tr>
 
 <tr>
 <td class="org-right">21</td>
 <td class="org-left">SJuWkeMm</td>
 <td class="org-left"><a href="http://www.sculpteo.com/embed/design/SJuWkeMm">http://www.sculpteo.com/embed/design/SJuWkeMm</a></td>
-<td class="org-left"><img src="poliedro-21.png" alt="poliedro-21.png" /></td>
+<td class="org-left"><img src="poliedro-21-small.png" alt="poliedro-21-small.png" /></td>
 </tr>
 
 <tr>
 <td class="org-right">22</td>
 <td class="org-left">ii3Bej6z</td>
 <td class="org-left"><a href="http://www.sculpteo.com/embed/design/ii3Bej6z">http://www.sculpteo.com/embed/design/ii3Bej6z</a></td>
-<td class="org-left"><img src="poliedro-22.png" alt="poliedro-22.png" /></td>
+<td class="org-left"><img src="poliedro-22-small.png" alt="poliedro-22-small.png" /></td>
 </tr>
 
 <tr>
 <td class="org-right">23</td>
 <td class="org-left">KtMCe5s6</td>
 <td class="org-left"><a href="http://www.sculpteo.com/embed/design/KtMCe5s6">http://www.sculpteo.com/embed/design/KtMCe5s6</a></td>
-<td class="org-left"><img src="poliedro-23.png" alt="poliedro-23.png" /></td>
+<td class="org-left"><img src="poliedro-23-small.png" alt="poliedro-23-small.png" /></td>
 </tr>
 
 <tr>
 <td class="org-right">24</td>
 <td class="org-left">xxAz2juM</td>
 <td class="org-left"><a href="http://www.sculpteo.com/embed/design/xxAz2juM">http://www.sculpteo.com/embed/design/xxAz2juM</a></td>
-<td class="org-left"><img src="poliedro-24.png" alt="poliedro-24.png" /></td>
+<td class="org-left"><img src="poliedro-24-small.png" alt="poliedro-24-small.png" /></td>
 </tr>
 </tbody>
 </table>
@@ -676,8 +710,8 @@ Tan solo resta comenzar con un número determinado de puntos aleatorios e iterar
 </div>
 </div>
 
-<div id="outline-container-orgheadline9" class="outline-3">
-<h3 id="orgheadline9"><span class="section-number-3">4.3</span> Cálculo del cubrimiento convexo</h3>
+<div id="outline-container-orgheadline8" class="outline-3">
+<h3 id="orgheadline8"><span class="section-number-3">4.3</span> Cálculo del cubrimiento convexo</h3>
 <div class="outline-text-3" id="text-4-3">
 <p>
 Comenzamos definiendo primitivas básicas para el trabajo con vectores: producto escalar y vectorial. El producto vectorial ya está implementado en <b>OpenSCAD</b> (función <code>cross</code>), pero se incluye aquí por completitud del algoritmo.
@@ -820,10 +854,11 @@ algoalgoalgoalgoalgoalgo  algoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoa lgoa
 </pre>
 </div>
 </div>
+</div>
 
-<div id="outline-container-orgheadline8" class="outline-4">
-<h4 id="orgheadline8"><span class="section-number-4">4.3.1</span> Renderización del poliedros</h4>
-<div class="outline-text-4" id="text-4-3-1">
+<div id="outline-container-orgheadline9" class="outline-3">
+<h3 id="orgheadline9"><span class="section-number-3">4.4</span> Renderización de poliedros</h3>
+<div class="outline-text-3" id="text-4-4">
 <p>
 Hasta el momento, sólo se ha realizado el cálculo de los vértices del poliedro, pero <b>OpenSCAD</b> no ha renderizado ninguna forma.
 </p>
@@ -862,10 +897,9 @@ aristasAPalos<span style="color: #8c8c8c;">(</span>aristasSinDuplicados,vertices
 </div>
 </div>
 </div>
-</div>
 <div id="postamble" class="status">
 <p class="author">Author: Álvaro González Sotillo</p>
-<p class="date">Created: 2016-10-17 lun 11:12</p>
+<p class="date">Created: 2016-10-17 lun 11:33</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
