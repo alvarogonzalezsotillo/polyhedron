@@ -7,7 +7,7 @@
 #+latex_header_extra: \lstset{frame=single,columns=fixed,basicstyle=\small\ttfamily,breaklines=true,postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\color{red}\hookrightarrow\space}}}
 #+author: Álvaro González Sotillo
 
-
+# Solo se exporta bien a PDF con (setq org-latex-image-default-width "1cm")
 
 
 * Resumen
@@ -88,7 +88,7 @@ imagenes() {
   local N=$1
   local BIG=poliedro-$N.png
   local SMALL=poliedro-$N-small.png
-  openscad -o $BIG -D STLFILE=poliedro-$N.stl "$SCADFILE"
+  openscad -o $BIG --viewall --colorscheme=Nature -D STLFILE=\"poliedro-$N.stl\" "$SCADFILE"
   convert -resize 128x128 $BIG $SMALL
 }
 for i in $(seq 4 24)
@@ -97,6 +97,7 @@ do
   imagenes $i
 done
 #+end_src
+
 
 
 
