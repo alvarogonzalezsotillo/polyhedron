@@ -48,9 +48,10 @@ Para determinar la posición final de las cargas dentro de la esfera se realiza 
 
 La figura [[fig:algoritmo]] muestra gráficamente el proceso del cálculo de la nueva posición de una carga, para dos dimensiones y tres cargas totales.
 
-#+caption[Figuura]: Cálculo de la nueva posición de la carga $c_1$ para un total de 3 cargas
+#+caption: Cálculo de la nueva posición de la carga $c_1$ para un total de 3 cargas
 #+name: fig:algoritmo
-#+attr_latex: :width .4\linewidth
+#+attr_html: :width 30%
+#+attr_latex: :width .3\linewidth
 [[file:algoritmo.png]]
 
 ** Cubrimiento convexo de los vértices
@@ -71,6 +72,7 @@ El algoritmo utilizado para determinar las aristas exteriores del poliedro es el
   :END:
 
 Los ficheros =STL= de definición de cada poliedro pueden generarse desde la línea de comandos de *OpenSCAD*. El programa se invoca con los parámetros necesarios para fijar el número de vértices a calcular, así como la precisión del cálculo (variables =$fn= y =$fa=). El /shellscript/ del listado [[lis:generacionstl]] muestra un bucle con el cálculo de los poliedros desde 4 a 24 vértices.
+
 #+caption: Generación de los sólidos de ejemplo
 #+NAME: lis:generacionstl
 #+begin_src sh
@@ -89,12 +91,13 @@ done
 
 Los ficheros =STL= generados pueden visualizarse con *OpenSCAD*, utilizando la orden =import=, como se muestra en el listado [[listadovisualizacionstl]]
 
-la referencia rara [[(unareferenciainventada)]]
 
-#+caption: Generación de los sólidos de ejemplo
+
+
 #+name: listadovisualizacionstl
+#+caption: Generación de los sólidos de ejemplo
 #+begin_src java
-STLFILE="poliedro-10.stl";  (ref:unareferenciainventada)
+STLFILE="poliedro-10.stl";
 ANGLE=20;
 
 rotate([ANGLE,0,0]){

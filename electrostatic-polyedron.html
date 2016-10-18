@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
 <head>
-<!-- 2016-10-18 mar 12:20 -->
+<!-- 2016-10-18 mar 14:42 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="viewport" content="width=device-width, initial-scale=1" />
 <title></title>
@@ -241,7 +241,7 @@ La figura <a href="#orgparagraph1">1</a> muestra gráficamente el proceso del c�
 
 
 <div id="orgparagraph1" class="figure">
-<p><img src="algoritmo.png" alt="algoritmo.png" />
+<p><img src="algoritmo.png" alt="algoritmo.png" width="30%" />
 </p>
 <p><span class="figure-number">Figura 1:</span> Cálculo de la nueva posición de la carga \(c_1\) para un total de 3 cargas</p>
 </div>
@@ -282,6 +282,7 @@ El algoritmo utilizado para determinar las aristas exteriores del poliedro es el
 <p>
 Los ficheros <code>STL</code> de definición de cada poliedro pueden generarse desde la línea de comandos de <b>OpenSCAD</b>. El programa se invoca con los parámetros necesarios para fijar el número de vértices a calcular, así como la precisión del cálculo (variables <code>$fn</code> y <code>$fa</code>). El <i>shellscript</i> del listado <a href="#orgsrcblock1">1</a> muestra un bucle con el cálculo de los poliedros desde 4 a 24 vértices.
 </p>
+
 <div class="org-src-container">
 <label class="org-src-name">Generación de los sólidos de ejemplo</label>
 <pre class="src src-sh" id="orgsrcblock1"><span style="color: #cd853f;">#</span><span style="color: #cd853f;">!/bin/</span><span style="color: #00ffff;">sh</span>
@@ -299,16 +300,12 @@ Los ficheros <code>STL</code> de definición de cada poliedro pueden generarse d
 </div>
 
 <p>
-Los ficheros <code>STL</code> generados pueden visualizarse con <b>OpenSCAD</b>, utilizando la orden <code>import</code>, como se muestra en el listado <a href="#orgtarget1">3</a>
-</p>
-<p>
-:CUSTOM<sub>ID</sub>: visualizacionstl
+Los ficheros <code>STL</code> generados pueden visualizarse con <b>OpenSCAD</b>, utilizando la orden <code>import</code>, como se muestra en el listado <a href="#orgsrcblock2">2</a>
 </p>
 
 
-<p>
-<a id="orgtarget1"></a>
-</p>
+
+
 <div class="org-src-container">
 <label class="org-src-name">Generación de los sólidos de ejemplo</label>
 <pre class="src src-java" id="orgsrcblock2">STLFILE=<span style="color: #ffa07a;">"poliedro-10.stl"</span>;
@@ -323,7 +320,7 @@ rotate<span style="color: #8c8c8c;">(</span><span style="color: #93a8c6;">[</spa
 </div>
 
 <p>
-Las imágenes utilizadas en la tabla <a href="#orgtable1">1</a> se han generado con el programa del listado <a href="#orgtarget1">3</a> y el <i>script</i> del listado <a href="#orgsrcblock3">3</a>
+Las imágenes utilizadas en la tabla <a href="#orgtable1">1</a> se han generado con el programa del listado <a href="#orgsrcblock2">2</a> y el <i>script</i> del listado <a href="#orgsrcblock3">3</a>
 </p>
 
 <div class="org-src-container">
@@ -352,7 +349,7 @@ Los ficheros <code>STL</code> se han importado en el servicio <a href="http://ww
 
 
 <table id="orgtable1" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-<caption class="t-above"><span class="table-number">Tabla 1</span> Tabla de poliedros de ejemplo</caption>
+<caption class="t-above"><span class="table-number">Tabla 1</span> Poliedros de ejemplo</caption>
 
 <colgroup>
 <col  class="org-right" />
@@ -922,7 +919,7 @@ aristasAPalos<span style="color: #8c8c8c;">(</span>aristasSinDuplicados,vertices
 </div>
 <div id="postamble" class="status">
 <p class="author">Autor: Álvaro González Sotillo</p>
-<p class="date">Created: 2016-10-18 mar 12:20</p>
+<p class="date">Created: 2016-10-18 mar 14:42</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
