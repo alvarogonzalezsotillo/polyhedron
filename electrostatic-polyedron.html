@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
 <head>
-<!-- 2016-10-17 lun 11:33 -->
+<!-- 2016-10-18 mar 12:20 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="viewport" content="width=device-width, initial-scale=1" />
 <title></title>
@@ -166,7 +166,7 @@ for the JavaScript code in this tag.
 <body>
 <div id="content">
 <div id="table-of-contents">
-<h2>Table of Contents</h2>
+<h2>&Iacute;ndice</h2>
 <div id="text-table-of-contents">
 <ul>
 <li><a href="#orgheadline1">1. Resumen</a></li>
@@ -176,7 +176,7 @@ for the JavaScript code in this tag.
 <li><a href="#orgheadline3">2.2. Cubrimiento convexo de los vértices</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline5">3. Ejemplos de poliedros para \(N=4..24\)</a></li>
+<li><a href="#orgheadline5">3. Ejemplos de poliedros para \(4\leq N \leq 24\)</a></li>
 <li><a href="#orgheadline10">4. Implementación</a>
 <ul>
 <li><a href="#orgheadline6">4.1. Características del lenguaje</a></li>
@@ -188,9 +188,6 @@ for the JavaScript code in this tag.
 </ul>
 </div>
 </div>
-
-
-
 
 <div id="outline-container-orgheadline1" class="outline-2">
 <h2 id="orgheadline1"><span class="section-number-2">1</span> Resumen</h2>
@@ -209,6 +206,7 @@ Los poliedros generados presentan un alto grado se simetría. La forma final alc
 </div>
 </div>
 
+
 <div id="outline-container-orgheadline4" class="outline-2">
 <h2 id="orgheadline4"><span class="section-number-2">2</span> Cálculo del poliedro</h2>
 <div class="outline-text-2" id="text-2">
@@ -222,20 +220,31 @@ Para determinar la posición final de las cargas dentro de la esfera se realiza 
 <li>Se inicializan las \(N\) cargas a posiciones \(c_i\) aleatorias del espacio.</li>
 <li>Por cada carga \(c_i\):
 <ol class="org-ol">
-<li>La fuerza de repulsión con cada una de las otras cargas \(c_j\) se calcula como \[f_{ij} = \frac{(c_i-c_j)}{|(c_i-c_j)|^2}\]</li>
+<li>La fuerza de repulsión con cada una de las otras cargas \(c_j\) se calcula como \[f_{ij} = K \cdot \frac{(c_i-c_j)}{|(c_i-c_j)|^2}\] La constante \(K\) debería representar factores como el intervalo de tiempo de cada paso de la simulación y las masas de las cargas y su resistencia al movimiento, aunque en la práctica se ajusta a valores más altos para acelerar el resultado.</li>
 <li>Se suman dichas fuerzas para encontrar la fuerza total resultante \(f_i\) sobre \(c_i\). \[f_i = \sum_{j \neq i}^{N} f_{ij}\]</li>
 </ol></li>
 <li>Por cada carga \(c_i\):
 <ol class="org-ol">
-<li>Se calcula la nueva posición de la carga \(i\) como \(c'_i = c_i + K \cdot f_i\). La constante \(K\) debería representar factores como el intervalo de tiempo de cada paso de la simulación y las masas de las cargas, aunque en la práctica se ajusta a valores más altos para acelerar el resultado.</li>
+<li>Se calcula la nueva posición de la carga \(i\) como \(c'_i = c_i +  f_i\).</li>
 <li>La posición resultante se proyecta sobre una esfera de radio \(r\) centrada en el origen \[c''_i = \frac{c'_i}{|c'_i|}\]</li>
 </ol></li>
 <li>Las nuevas posiciones \(c_i\) son los valores de \(c''_i\)</li>
 <li>Se itera desde el paso 2 hasta alcanzar el criterio de terminación.
 <ol class="org-ol">
-<li>El criterio de terminación del bucle es la estabilidad de las posiciones \(c_i\), comparando un umbral \(\epsilon\) con \[\sum_{i}^{N} (c''_i - c_i)\]</li>
+<li>El criterio de terminación del bucle es la estabilidad de las posiciones \(c_i\), comparando un umbral \(\epsilon\) con \[\sum_{i}^{N} |c''_i - c_i|\]</li>
 </ol></li>
 </ol>
+
+<p>
+La figura <a href="#orgparagraph1">1</a> muestra gráficamente el proceso del cálculo de la nueva posición de una carga, para dos dimensiones y tres cargas totales.
+</p>
+
+
+<div id="orgparagraph1" class="figure">
+<p><img src="algoritmo.png" alt="algoritmo.png" />
+</p>
+<p><span class="figure-number">Figura 1:</span> Cálculo de la nueva posición de la carga \(c_1\) para un total de 3 cargas</p>
+</div>
 </div>
 </div>
 
@@ -268,73 +277,92 @@ El algoritmo utilizado para determinar las aristas exteriores del poliedro es el
 
 
 <div id="outline-container-orgheadline5" class="outline-2">
-<h2 id="orgheadline5"><span class="section-number-2">3</span> Ejemplos de poliedros para \(N=4..24\)</h2>
+<h2 id="orgheadline5"><span class="section-number-2">3</span> Ejemplos de poliedros para \(4\leq N \leq 24\)</h2>
 <div class="outline-text-2" id="text-3">
 <p>
-Los ficheros <code>STL</code> de definición de cada poliedro pueden generarse con el siguiente <i>shellscript</i>
+Los ficheros <code>STL</code> de definición de cada poliedro pueden generarse desde la línea de comandos de <b>OpenSCAD</b>. El programa se invoca con los parámetros necesarios para fijar el número de vértices a calcular, así como la precisión del cálculo (variables <code>$fn</code> y <code>$fa</code>). El <i>shellscript</i> del listado <a href="#orgsrcblock1">1</a> muestra un bucle con el cálculo de los poliedros desde 4 a 24 vértices.
 </p>
 <div class="org-src-container">
 <label class="org-src-name">Generación de los sólidos de ejemplo</label>
-<pre class="src src-sh"><span style="color: #cd853f;">#</span><span style="color: #cd853f;">!/bin/</span><span style="color: #20b2aa; font-weight: bold;">sh</span>
-<span style="color: #9acd32;">SCADFILE</span>=./electrostatic-polyedron.scad
+<pre class="src src-sh" id="orgsrcblock1"><span style="color: #cd853f;">#</span><span style="color: #cd853f;">!/bin/</span><span style="color: #00ffff;">sh</span>
+<span style="color: #eedd82;">SCADFILE</span>=./electrostatic-polyedron.scad
 
-<span style="color: #00ff7f;">poliedro</span> <span style="color: #8c8c8c;">()</span> <span style="color: #8c8c8c;">{</span>
-  <span style="color: #76ee00;">local</span> <span style="color: #9acd32;">N</span>=$<span style="color: #9acd32;">1</span>
-  openscad -o poliedro-$<span style="color: #9acd32;">N</span>.stl -D <span style="color: #9acd32;">N</span>=$<span style="color: #9acd32;">N</span> -D <span style="color: #ffa07a;">'$fn=50'</span> -D <span style="color: #ffa07a;">'$fa=50'</span> <span style="color: #ffa07a;">"$SCADFILE"</span>
+<span style="color: #87cefa;">poliedro</span> <span style="color: #8c8c8c;">()</span> <span style="color: #8c8c8c;">{</span>
+  <span style="color: #b0c4de;">local</span> <span style="color: #eedd82;">N</span>=$<span style="color: #eedd82;">1</span>
+  openscad -o poliedro-$<span style="color: #eedd82;">N</span>.stl -D <span style="color: #eedd82;">N</span>=$<span style="color: #eedd82;">N</span> -D <span style="color: #ffa07a;">'$fn=50'</span> -D <span style="color: #ffa07a;">'$fa=50'</span> <span style="color: #ffa07a;">"$SCADFILE"</span>
 <span style="color: #8c8c8c;">}</span>
-<span style="color: #20b2aa; font-weight: bold;">for</span> i<span style="color: #20b2aa; font-weight: bold;"> in</span> $<span style="color: #8c8c8c;">(</span>seq 4 24<span style="color: #8c8c8c;">)</span>
-<span style="color: #20b2aa; font-weight: bold;">do</span>
-  <span style="color: #76ee00;">echo</span> Generando poliedro $<span style="color: #9acd32;">i</span>
-  poliedro $<span style="color: #9acd32;">i</span>
-<span style="color: #20b2aa; font-weight: bold;">done</span>
+<span style="color: #00ffff;">for</span> i<span style="color: #00ffff;"> in</span> $<span style="color: #8c8c8c;">(</span>seq 4 24<span style="color: #8c8c8c;">)</span>
+<span style="color: #00ffff;">do</span>
+  poliedro $<span style="color: #eedd82;">i</span>
+<span style="color: #00ffff;">done</span>
 </pre>
 </div>
 
+<p>
+Los ficheros <code>STL</code> generados pueden visualizarse con <b>OpenSCAD</b>, utilizando la orden <code>import</code>, como se muestra en el listado <a href="#orgtarget1">3</a>
+</p>
+<p>
+:CUSTOM<sub>ID</sub>: visualizacionstl
+</p>
 
+
+<p>
+<a id="orgtarget1"></a>
+</p>
 <div class="org-src-container">
 <label class="org-src-name">Generación de los sólidos de ejemplo</label>
-<pre class="src src-sh"><span style="color: #9acd32;">STLFILE</span>=<span style="color: #ffa07a;">"poliedro-10.stl"</span>;
-<span style="color: #9acd32;">ANGLE</span>=20;
+<pre class="src src-java" id="orgsrcblock2">STLFILE=<span style="color: #ffa07a;">"poliedro-10.stl"</span>;
+ANGLE=20;
 
-<span style="color: #00ff7f;">rotate</span><span style="color: #8c8c8c;">(</span><span style="color: #93a8c6;">[</span>ANGLE,0,0<span style="color: #93a8c6;">]</span><span style="color: #8c8c8c;">){</span>
+rotate<span style="color: #8c8c8c;">(</span><span style="color: #93a8c6;">[</span>ANGLE,0,0<span style="color: #93a8c6;">]</span><span style="color: #8c8c8c;">){</span>
      translate<span style="color: #93a8c6;">(</span><span style="color: #b0b1a3;">[</span>0,0,0<span style="color: #b0b1a3;">]</span><span style="color: #93a8c6;">)</span> <span style="color: #93a8c6;">{</span>
-          import<span style="color: #b0b1a3;">(</span>STLFILE<span style="color: #b0b1a3;">)</span>;
+          <span style="color: #00ffff;">import</span><span style="color: #b0b1a3;">(</span><span style="color: #98fb98;">STLFILE</span><span style="color: #b0b1a3;">)</span>;
      <span style="color: #93a8c6;">}</span>
 <span style="color: #8c8c8c;">}</span>
 </pre>
 </div>
 
+<p>
+Las imágenes utilizadas en la tabla <a href="#orgtable1">1</a> se han generado con el programa del listado <a href="#orgtarget1">3</a> y el <i>script</i> del listado <a href="#orgsrcblock3">3</a>
+</p>
 
 <div class="org-src-container">
 <label class="org-src-name">Generación de los sólidos de ejemplo</label>
-<pre class="src src-sh"><span style="color: #cd853f;">#</span><span style="color: #cd853f;">!/bin/</span><span style="color: #20b2aa; font-weight: bold;">sh</span><span style="color: #cd853f;"> -x</span>
-<span style="color: #9acd32;">SCADFILE</span>=./view-stl.scad
+<pre class="src src-sh" id="orgsrcblock3"><span style="color: #cd853f;">#</span><span style="color: #cd853f;">!/bin/</span><span style="color: #00ffff;">bash</span><span style="color: #cd853f;"> -x</span>
+<span style="color: #eedd82;">SCADFILE</span>=./view-stl.scad
 
-<span style="color: #00ff7f;">imagenes</span><span style="color: #8c8c8c;">()</span> <span style="color: #8c8c8c;">{</span>
-  <span style="color: #76ee00;">local</span> <span style="color: #9acd32;">N</span>=$<span style="color: #9acd32;">1</span>
-  <span style="color: #76ee00;">local</span> <span style="color: #9acd32;">BIG</span>=poliedro-$<span style="color: #9acd32;">N</span>.png
-  <span style="color: #76ee00;">local</span> <span style="color: #9acd32;">SMALL</span>=poliedro-$<span style="color: #9acd32;">N</span>-small.png
-  openscad -o $<span style="color: #9acd32;">BIG</span> -D <span style="color: #9acd32;">STLFILE</span>=poliedro-$<span style="color: #9acd32;">N</span>.stl <span style="color: #ffa07a;">"$SCADFILE"</span>
-  convert -resize 128x128 $<span style="color: #9acd32;">BIG</span> $<span style="color: #9acd32;">SMALL</span>
+<span style="color: #87cefa;">imagenes</span><span style="color: #8c8c8c;">()</span> <span style="color: #8c8c8c;">{</span>
+  <span style="color: #b0c4de;">local</span> <span style="color: #eedd82;">N</span>=$<span style="color: #eedd82;">1</span>
+  <span style="color: #b0c4de;">local</span> <span style="color: #eedd82;">BIG</span>=poliedro-$<span style="color: #eedd82;">N</span>.png
+  <span style="color: #b0c4de;">local</span> <span style="color: #eedd82;">SMALL</span>=poliedro-$<span style="color: #eedd82;">N</span>-small.png
+  openscad -o $<span style="color: #eedd82;">BIG</span> --camera=0,0,525,0,0,0 --colorscheme=Nature -D <span style="color: #eedd82;">STLFILE</span>=<span style="color: #ffa07a;">\"</span>poliedro-$<span style="color: #eedd82;">N</span>.stl<span style="color: #ffa07a;">\"</span> <span style="color: #ffa07a;">"$SCADFILE"</span>
+  convert -resize 128x128 $<span style="color: #eedd82;">BIG</span> $<span style="color: #eedd82;">SMALL</span>
 <span style="color: #8c8c8c;">}</span>
-<span style="color: #20b2aa; font-weight: bold;">for</span> i<span style="color: #20b2aa; font-weight: bold;"> in</span> $<span style="color: #8c8c8c;">(</span>seq 4 24<span style="color: #8c8c8c;">)</span>
-<span style="color: #20b2aa; font-weight: bold;">do</span>
-  <span style="color: #76ee00;">echo</span> Generando im&#225;genes de poliedro $<span style="color: #9acd32;">i</span>
-  imagenes $<span style="color: #9acd32;">i</span>
-<span style="color: #20b2aa; font-weight: bold;">done</span>
+
+<span style="color: #00ffff;">for</span> i<span style="color: #00ffff;"> in</span> $<span style="color: #8c8c8c;">(</span>seq 4 24<span style="color: #8c8c8c;">)</span>
+<span style="color: #00ffff;">do</span>
+  imagenes $<span style="color: #eedd82;">i</span>
+<span style="color: #00ffff;">done</span>
 </pre>
 </div>
 
+<p>
+Los ficheros <code>STL</code> se han importado en el servicio <a href="http://www.sculpteo.com">Sculpteo</a> para su visualización en línea. La tabla <a href="#orgtable1">1</a> incluye la lista de poliedros y su <i>URL</i>.
+</p>
 
 
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
+<table id="orgtable1" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Tabla 1</span> Tabla de poliedros de ejemplo</caption>
 
 <colgroup>
 <col  class="org-right" />
+</colgroup>
 
+<colgroup>
 <col  class="org-left" />
+</colgroup>
 
+<colgroup>
 <col  class="org-left" />
 
 <col  class="org-left" />
@@ -344,7 +372,7 @@ Los ficheros <code>STL</code> de definición de cada poliedro pueden generarse c
 <th scope="col" class="org-right">Vértices</th>
 <th scope="col" class="org-left">Sculpteo ID</th>
 <th scope="col" class="org-left">Enlace</th>
-<th scope="col" class="org-left">Imagen</th>
+<th scope="col" class="org-left">&#xa0;</th>
 </tr>
 </thead>
 <tbody>
@@ -497,13 +525,8 @@ Los ficheros <code>STL</code> de definición de cada poliedro pueden generarse c
 </tbody>
 </table>
 
-<p>
-www.sculpteo.com/embed/design/xxAz2juM
-</p>
 
-<p>
-Los ficheros <code>stl</code> generados pueden visualizarse con <b>OpenSCAD</b> con un script como el siguiente
-</p>
+
 
 <div class="org-src-container">
 <label class="org-src-name">Generación de las imágenes de ejemplo</label>
@@ -512,7 +535,7 @@ ANGLE=20;
 
 rotate<span style="color: #8c8c8c;">(</span><span style="color: #93a8c6;">[</span>ANGLE,0,0<span style="color: #93a8c6;">]</span><span style="color: #8c8c8c;">){</span>
      translate<span style="color: #93a8c6;">(</span><span style="color: #b0b1a3;">[</span>0,0,0<span style="color: #b0b1a3;">]</span><span style="color: #93a8c6;">)</span> <span style="color: #93a8c6;">{</span>
-          <span style="color: #20b2aa; font-weight: bold;">import</span><span style="color: #b0b1a3;">(</span><span style="color: #9370db;">STLFILE</span><span style="color: #b0b1a3;">)</span>;
+          <span style="color: #00ffff;">import</span><span style="color: #b0b1a3;">(</span><span style="color: #98fb98;">STLFILE</span><span style="color: #b0b1a3;">)</span>;
      <span style="color: #93a8c6;">}</span>
 <span style="color: #8c8c8c;">}</span>
 </pre>
@@ -521,18 +544,18 @@ rotate<span style="color: #8c8c8c;">(</span><span style="color: #93a8c6;">[</spa
 
 <div class="org-src-container">
 <label class="org-src-name">Generación de las imágenes de ejemplo</label>
-<pre class="src src-sh"><span style="color: #cd853f;">#</span><span style="color: #cd853f;">!/bin/</span><span style="color: #20b2aa; font-weight: bold;">sh</span><span style="color: #cd853f;"> -x</span>
-<span style="color: #9acd32;">SCADFILE</span>=./electrostatic-polyedron.scad
+<pre class="src src-sh"><span style="color: #cd853f;">#</span><span style="color: #cd853f;">!/bin/</span><span style="color: #00ffff;">sh</span><span style="color: #cd853f;"> -x</span>
+<span style="color: #eedd82;">SCADFILE</span>=./electrostatic-polyedron.scad
 
-<span style="color: #00ff7f;">poliedro</span> <span style="color: #8c8c8c;">()</span> <span style="color: #8c8c8c;">{</span>
-  <span style="color: #76ee00;">local</span> <span style="color: #9acd32;">N</span>=$<span style="color: #9acd32;">1</span>
-  openscad -o poliedro-$<span style="color: #9acd32;">N</span>.stl -D <span style="color: #9acd32;">N</span>=$<span style="color: #9acd32;">N</span> -D <span style="color: #ffa07a;">'$fn=50'</span> -D <span style="color: #ffa07a;">'$fa=50'</span> <span style="color: #ffa07a;">"$SCADFILE"</span>
+<span style="color: #87cefa;">poliedro</span> <span style="color: #8c8c8c;">()</span> <span style="color: #8c8c8c;">{</span>
+  <span style="color: #b0c4de;">local</span> <span style="color: #eedd82;">N</span>=$<span style="color: #eedd82;">1</span>
+  openscad -o poliedro-$<span style="color: #eedd82;">N</span>.stl -D <span style="color: #eedd82;">N</span>=$<span style="color: #eedd82;">N</span> -D <span style="color: #ffa07a;">'$fn=50'</span> -D <span style="color: #ffa07a;">'$fa=50'</span> <span style="color: #ffa07a;">"$SCADFILE"</span>
 <span style="color: #8c8c8c;">}</span>
-<span style="color: #20b2aa; font-weight: bold;">for</span> i<span style="color: #20b2aa; font-weight: bold;"> in</span> $<span style="color: #8c8c8c;">(</span>seq 4 24<span style="color: #8c8c8c;">)</span>
-<span style="color: #20b2aa; font-weight: bold;">do</span>
-  gecho Generando poliedro $<span style="color: #9acd32;">i</span>
-  poliedro $<span style="color: #9acd32;">i</span>
-<span style="color: #20b2aa; font-weight: bold;">done</span>
+<span style="color: #00ffff;">for</span> i<span style="color: #00ffff;"> in</span> $<span style="color: #8c8c8c;">(</span>seq 4 24<span style="color: #8c8c8c;">)</span>
+<span style="color: #00ffff;">do</span>
+  gecho Generando poliedro $<span style="color: #eedd82;">i</span>
+  poliedro $<span style="color: #eedd82;">i</span>
+<span style="color: #00ffff;">done</span>
 </pre>
 </div>
 </div>
@@ -591,7 +614,7 @@ En la implementación se ha optado por utilizar las mínimas funciones del siste
 
 <div class="org-src-container">
 <label class="org-src-name">Distancia entre puntos tridimensionales (sqrt es una función incluída en OpenSCAD)</label>
-<pre class="src src-java"><span style="color: #9370db;">function</span> <span style="color: #00ff7f;">distancia</span><span style="color: #8c8c8c;">(</span><span style="color: #9370db;">a</span>,<span style="color: #9370db;">b</span><span style="color: #8c8c8c;">)</span> = 
+<pre class="src src-java"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">distancia</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">a</span>,<span style="color: #98fb98;">b</span><span style="color: #8c8c8c;">)</span> = 
   let<span style="color: #8c8c8c;">(</span>
     dx = a<span style="color: #93a8c6;">[</span>0<span style="color: #93a8c6;">]</span>-b<span style="color: #93a8c6;">[</span>0<span style="color: #93a8c6;">]</span>,
     dy = a<span style="color: #93a8c6;">[</span>1<span style="color: #93a8c6;">]</span>-b<span style="color: #93a8c6;">[</span>1<span style="color: #93a8c6;">]</span>,
@@ -607,8 +630,8 @@ A diferencia de la mayoría de lenguajes, <b>OpenSCAD</b> no ofrece bucles de ti
 
 <div class="org-src-container">
 <label class="org-src-name">Distancia entre puntos tridimensionales</label>
-<pre class="src src-java"><span style="color: #9370db;">function</span> <span style="color: #00ff7f;">sumaPuntos</span><span style="color: #8c8c8c;">(</span><span style="color: #9370db;">lista</span><span style="color: #8c8c8c;">)</span> = suma<span style="color: #8c8c8c;">(</span>lista,<span style="color: #93a8c6;">[</span>0,0,0<span style="color: #93a8c6;">]</span>,0<span style="color: #8c8c8c;">)</span>;
-<span style="color: #9370db;">function</span> <span style="color: #00ff7f;">suma</span><span style="color: #8c8c8c;">(</span><span style="color: #9370db;">lista</span>,retorno=0,i=0<span style="color: #8c8c8c;">)</span> = 
+<pre class="src src-java"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">sumaPuntos</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">lista</span><span style="color: #8c8c8c;">)</span> = suma<span style="color: #8c8c8c;">(</span>lista,<span style="color: #93a8c6;">[</span>0,0,0<span style="color: #93a8c6;">]</span>,0<span style="color: #8c8c8c;">)</span>;
+<span style="color: #98fb98;">function</span> <span style="color: #87cefa;">suma</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">lista</span>,retorno=0,i=0<span style="color: #8c8c8c;">)</span> = 
   i&gt;=len<span style="color: #8c8c8c;">(</span>lista<span style="color: #8c8c8c;">)</span> ? 
   retorno : 
   suma<span style="color: #8c8c8c;">(</span>lista,lista<span style="color: #93a8c6;">[</span>i<span style="color: #93a8c6;">]</span>+retorno,i+1<span style="color: #8c8c8c;">)</span>;
@@ -624,12 +647,12 @@ Los bucles <code>for</code> siempre forman parte de un <i>for comprehension</i>,
 
 <div class="org-src-container">
 <label class="org-src-name">Suma de distancias entre dos listas de puntos</label>
-<pre class="src src-java"><span style="color: #9370db;">function</span> <span style="color: #00ff7f;">distancias</span><span style="color: #8c8c8c;">(</span><span style="color: #9370db;">puntos1</span>, <span style="color: #9370db;">puntos2</span> <span style="color: #8c8c8c;">)</span> =    <span style="color: #8c8c8c;">[</span>
-     <span style="color: #20b2aa; font-weight: bold;">for</span><span style="color: #93a8c6;">(</span> i =<span style="color: #b0b1a3;">[</span>0:1:len<span style="color: #97b098;">(</span>puntos1<span style="color: #97b098;">)</span>-1<span style="color: #b0b1a3;">]</span> <span style="color: #93a8c6;">)</span>
+<pre class="src src-java"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">distancias</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">puntos1</span>, <span style="color: #98fb98;">puntos2</span> <span style="color: #8c8c8c;">)</span> =    <span style="color: #8c8c8c;">[</span>
+     <span style="color: #00ffff;">for</span><span style="color: #93a8c6;">(</span> i =<span style="color: #b0b1a3;">[</span>0:1:len<span style="color: #97b098;">(</span>puntos1<span style="color: #97b098;">)</span>-1<span style="color: #b0b1a3;">]</span> <span style="color: #93a8c6;">)</span>
          distancia<span style="color: #93a8c6;">(</span>puntos1<span style="color: #b0b1a3;">[</span>i<span style="color: #b0b1a3;">]</span>,puntos2<span style="color: #b0b1a3;">[</span>i<span style="color: #b0b1a3;">]</span><span style="color: #93a8c6;">)</span>
 <span style="color: #8c8c8c;">]</span>;
 
-<span style="color: #9370db;">function</span> <span style="color: #00ff7f;">errorTotal</span><span style="color: #8c8c8c;">(</span><span style="color: #9370db;">puntos1</span>,<span style="color: #9370db;">puntos2</span><span style="color: #8c8c8c;">)</span> = suma<span style="color: #8c8c8c;">(</span>distancias<span style="color: #93a8c6;">(</span>puntos1,puntos2<span style="color: #93a8c6;">)</span><span style="color: #8c8c8c;">)</span>;
+<span style="color: #98fb98;">function</span> <span style="color: #87cefa;">errorTotal</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">puntos1</span>,<span style="color: #98fb98;">puntos2</span><span style="color: #8c8c8c;">)</span> = suma<span style="color: #8c8c8c;">(</span>distancias<span style="color: #93a8c6;">(</span>puntos1,puntos2<span style="color: #93a8c6;">)</span><span style="color: #8c8c8c;">)</span>;
 </pre>
 </div>
 
@@ -639,30 +662,30 @@ Las fuerzas aplicadas en cada carga se calculan también como un <i>for comprehe
 
 <div class="org-src-container">
 <label class="org-src-name">Cálclo de las fuerzas que actúan sobre una carga</label>
-<pre class="src src-java"><span style="color: #9370db;">function</span> <span style="color: #00ff7f;">fuerzasParaPunto</span><span style="color: #8c8c8c;">(</span> <span style="color: #9370db;">p</span>, <span style="color: #9370db;">puntos</span> <span style="color: #8c8c8c;">)</span> = <span style="color: #8c8c8c;">[</span>
- <span style="color: #20b2aa; font-weight: bold;">for</span><span style="color: #93a8c6;">(</span> punto = puntos <span style="color: #93a8c6;">)</span>
+<pre class="src src-java"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">fuerzasParaPunto</span><span style="color: #8c8c8c;">(</span> <span style="color: #98fb98;">p</span>, <span style="color: #98fb98;">puntos</span> <span style="color: #8c8c8c;">)</span> = <span style="color: #8c8c8c;">[</span>
+ <span style="color: #00ffff;">for</span><span style="color: #93a8c6;">(</span> punto = puntos <span style="color: #93a8c6;">)</span>
    let<span style="color: #93a8c6;">(</span>
       d = distancia<span style="color: #b0b1a3;">(</span>p,punto<span style="color: #b0b1a3;">)</span>
    <span style="color: #93a8c6;">)</span>
-   <span style="color: #20b2aa; font-weight: bold;">if</span><span style="color: #93a8c6;">(</span> punto != p <span style="color: #93a8c6;">)</span>  
+   <span style="color: #00ffff;">if</span><span style="color: #93a8c6;">(</span> punto != p <span style="color: #93a8c6;">)</span>  
      <span style="color: #93a8c6;">(</span>p - punto<span style="color: #93a8c6;">)</span>/<span style="color: #93a8c6;">(</span>d*d<span style="color: #93a8c6;">)</span>
 <span style="color: #8c8c8c;">]</span>;
 
-<span style="color: #9370db;">function</span> <span style="color: #00ff7f;">modulo</span><span style="color: #8c8c8c;">(</span><span style="color: #9370db;">vector</span><span style="color: #8c8c8c;">)</span> = distancia<span style="color: #8c8c8c;">(</span>vector,<span style="color: #93a8c6;">[</span>0,0,0<span style="color: #93a8c6;">]</span><span style="color: #8c8c8c;">)</span>;
+<span style="color: #98fb98;">function</span> <span style="color: #87cefa;">modulo</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">vector</span><span style="color: #8c8c8c;">)</span> = distancia<span style="color: #8c8c8c;">(</span>vector,<span style="color: #93a8c6;">[</span>0,0,0<span style="color: #93a8c6;">]</span><span style="color: #8c8c8c;">)</span>;
 </pre>
 </div>
 
 
 
 <p>
-Este listado muestra la funcion principal de cálculo de posición de cada carga. La función <code>nuevoPuntoParaInteracion</code> determina la nueva posición de un punto, y la función <code>iteracion</code> utiliza la anterior para calcular la nueva posición de todos los puntos.
+La función <code>nuevoPuntoParaIteracion</code> determina la nueva posición de un punto, y la función <code>iteracion</code> utiliza la anterior para calcular la nueva posición de todos los puntos. 
 </p>
 
 <div class="org-src-container">
 <label class="org-src-name">Cálculo de las nuevas posiciones de las cargas a partir de las actuales</label>
-<pre class="src src-java"><span style="color: #9370db;">function</span> <span style="color: #00ff7f;">normaliza</span><span style="color: #8c8c8c;">(</span> <span style="color: #9370db;">p</span>, <span style="color: #9370db;">radio</span> <span style="color: #8c8c8c;">)</span> = radio * p / modulo<span style="color: #8c8c8c;">(</span>p<span style="color: #8c8c8c;">)</span>;
+<pre class="src src-java"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">normaliza</span><span style="color: #8c8c8c;">(</span> <span style="color: #98fb98;">p</span>, <span style="color: #98fb98;">radio</span> <span style="color: #8c8c8c;">)</span> = radio * p / modulo<span style="color: #8c8c8c;">(</span>p<span style="color: #8c8c8c;">)</span>;
 
-<span style="color: #9370db;">function</span> <span style="color: #00ff7f;">nuevoPuntoParaIteracion</span><span style="color: #8c8c8c;">(</span><span style="color: #9370db;">p</span>,<span style="color: #9370db;">puntos</span>, radio=100<span style="color: #8c8c8c;">)</span> = 
+<span style="color: #98fb98;">function</span> <span style="color: #87cefa;">nuevoPuntoParaIteracion</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">p</span>,<span style="color: #98fb98;">puntos</span>, radio=100<span style="color: #8c8c8c;">)</span> = 
    let<span style="color: #8c8c8c;">(</span>
       fuerzas = fuerzasParaPunto<span style="color: #93a8c6;">(</span> p, puntos <span style="color: #93a8c6;">)</span>,
       factorDeAmpliacion = radio*radio,
@@ -671,8 +694,8 @@ Este listado muestra la funcion principal de cálculo de posición de cada carga
    <span style="color: #8c8c8c;">)</span>
    normaliza<span style="color: #8c8c8c;">(</span>nuevoPunto,radio<span style="color: #8c8c8c;">)</span>;
 
-<span style="color: #9370db;">function</span> <span style="color: #00ff7f;">iteracion</span><span style="color: #8c8c8c;">(</span><span style="color: #9370db;">puntos</span>, radio=100<span style="color: #8c8c8c;">)</span> = <span style="color: #8c8c8c;">[</span>
-   <span style="color: #20b2aa; font-weight: bold;">for</span><span style="color: #93a8c6;">(</span> i = puntos<span style="color: #93a8c6;">)</span> nuevoPuntoParaIteracion<span style="color: #93a8c6;">(</span>i,puntos,radio<span style="color: #93a8c6;">)</span>
+<span style="color: #98fb98;">function</span> <span style="color: #87cefa;">iteracion</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">puntos</span>, radio=100<span style="color: #8c8c8c;">)</span> = <span style="color: #8c8c8c;">[</span>
+   <span style="color: #00ffff;">for</span><span style="color: #93a8c6;">(</span> i = puntos<span style="color: #93a8c6;">)</span> nuevoPuntoParaIteracion<span style="color: #93a8c6;">(</span>i,puntos,radio<span style="color: #93a8c6;">)</span>
 <span style="color: #8c8c8c;">]</span>;
 </pre>
 </div>
@@ -683,7 +706,7 @@ La función <code>iteraCalculoDePuntos</code> realiza un bucle <code>while</code
 
 <div class="org-src-container">
 <label class="org-src-name">Bucle hasta no superar una diferencia mínima o un número máximo de iteraciones</label>
-<pre class="src src-java"><span style="color: #9370db;">function</span> <span style="color: #00ff7f;">iteraCalculoDePuntos</span><span style="color: #8c8c8c;">(</span> <span style="color: #9370db;">puntos</span>, radio=100, errorMaximo=0.01, contador=0, iteracionesMaximas=1000 <span style="color: #8c8c8c;">)</span> =
+<pre class="src src-java"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">iteraCalculoDePuntos</span><span style="color: #8c8c8c;">(</span> <span style="color: #98fb98;">puntos</span>, radio=100, errorMaximo=0.01, contador=0, iteracionesMaximas=1000 <span style="color: #8c8c8c;">)</span> =
   let<span style="color: #8c8c8c;">(</span> 
     siguientesPuntos = iteracion<span style="color: #93a8c6;">(</span>puntos,radio<span style="color: #93a8c6;">)</span>, 
     error = errorTotal<span style="color: #93a8c6;">(</span>siguientesPuntos, puntos<span style="color: #93a8c6;">)</span>
@@ -700,11 +723,11 @@ Tan solo resta comenzar con un número determinado de puntos aleatorios e iterar
 
 <div class="org-src-container">
 <label class="org-src-name">Cálculo de los vértices de un poliedro</label>
-<pre class="src src-java"><span style="color: #9370db;">function</span> <span style="color: #00ff7f;">puntoAleatorio</span><span style="color: #8c8c8c;">()</span> = rands<span style="color: #8c8c8c;">(</span>-1000,1000,3<span style="color: #8c8c8c;">)</span>;
+<pre class="src src-java"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">puntoAleatorio</span><span style="color: #8c8c8c;">()</span> = rands<span style="color: #8c8c8c;">(</span>-1000,1000,3<span style="color: #8c8c8c;">)</span>;
 
-<span style="color: #9370db;">function</span> <span style="color: #00ff7f;">puntosAleatorios</span><span style="color: #8c8c8c;">(</span><span style="color: #9370db;">n</span><span style="color: #8c8c8c;">)</span> = <span style="color: #8c8c8c;">[</span><span style="color: #20b2aa; font-weight: bold;">for</span><span style="color: #93a8c6;">(</span> i=<span style="color: #b0b1a3;">[</span>0:n-1<span style="color: #b0b1a3;">]</span> <span style="color: #93a8c6;">)</span> puntoAleatorio<span style="color: #93a8c6;">()</span><span style="color: #8c8c8c;">]</span>;
+<span style="color: #98fb98;">function</span> <span style="color: #87cefa;">puntosAleatorios</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">n</span><span style="color: #8c8c8c;">)</span> = <span style="color: #8c8c8c;">[</span><span style="color: #00ffff;">for</span><span style="color: #93a8c6;">(</span> i=<span style="color: #b0b1a3;">[</span>0:n-1<span style="color: #b0b1a3;">]</span> <span style="color: #93a8c6;">)</span> puntoAleatorio<span style="color: #93a8c6;">()</span><span style="color: #8c8c8c;">]</span>;
 
-<span style="color: #9370db;">function</span> <span style="color: #00ff7f;">verticesPoliedroElectrostatico</span><span style="color: #8c8c8c;">(</span><span style="color: #9370db;">n</span><span style="color: #8c8c8c;">)</span> = iteraCalculoDePuntos<span style="color: #8c8c8c;">(</span>puntosAleatorios<span style="color: #93a8c6;">(</span>n<span style="color: #93a8c6;">)</span><span style="color: #8c8c8c;">)</span>;
+<span style="color: #98fb98;">function</span> <span style="color: #87cefa;">verticesPoliedroElectrostatico</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">n</span><span style="color: #8c8c8c;">)</span> = iteraCalculoDePuntos<span style="color: #8c8c8c;">(</span>puntosAleatorios<span style="color: #93a8c6;">(</span>n<span style="color: #93a8c6;">)</span><span style="color: #8c8c8c;">)</span>;
 </pre>
 </div>
 </div>
@@ -719,12 +742,12 @@ Comenzamos definiendo primitivas básicas para el trabajo con vectores: producto
 
 <div class="org-src-container">
 <label class="org-src-name">Cálculo del producto escalar y vectorial</label>
-<pre class="src src-java"><span style="color: #9370db;">function</span> <span style="color: #00ff7f;">productoEscalar</span><span style="color: #8c8c8c;">(</span><span style="color: #9370db;">v1</span>,<span style="color: #9370db;">v2</span><span style="color: #8c8c8c;">)</span> =
+<pre class="src src-java"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">productoEscalar</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">v1</span>,<span style="color: #98fb98;">v2</span><span style="color: #8c8c8c;">)</span> =
   suma<span style="color: #8c8c8c;">(</span> <span style="color: #93a8c6;">[</span> 
-    <span style="color: #20b2aa; font-weight: bold;">for</span><span style="color: #b0b1a3;">(</span>i=<span style="color: #97b098;">[</span>0:len<span style="color: #aebed8;">(</span>v1<span style="color: #aebed8;">)</span>-1<span style="color: #97b098;">]</span><span style="color: #b0b1a3;">)</span> v1<span style="color: #b0b1a3;">[</span>i<span style="color: #b0b1a3;">]</span>*v2<span style="color: #b0b1a3;">[</span>i<span style="color: #b0b1a3;">]</span> 
+    <span style="color: #00ffff;">for</span><span style="color: #b0b1a3;">(</span>i=<span style="color: #97b098;">[</span>0:len<span style="color: #aebed8;">(</span>v1<span style="color: #aebed8;">)</span>-1<span style="color: #97b098;">]</span><span style="color: #b0b1a3;">)</span> v1<span style="color: #b0b1a3;">[</span>i<span style="color: #b0b1a3;">]</span>*v2<span style="color: #b0b1a3;">[</span>i<span style="color: #b0b1a3;">]</span> 
   <span style="color: #93a8c6;">]</span> <span style="color: #8c8c8c;">)</span>;
 
-<span style="color: #9370db;">function</span> <span style="color: #00ff7f;">productoVectorial</span><span style="color: #8c8c8c;">(</span><span style="color: #9370db;">v1</span>,<span style="color: #9370db;">v2</span><span style="color: #8c8c8c;">)</span> = <span style="color: #8c8c8c;">[</span>
+<span style="color: #98fb98;">function</span> <span style="color: #87cefa;">productoVectorial</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">v1</span>,<span style="color: #98fb98;">v2</span><span style="color: #8c8c8c;">)</span> = <span style="color: #8c8c8c;">[</span>
     v1<span style="color: #93a8c6;">[</span>1<span style="color: #93a8c6;">]</span>*v2<span style="color: #93a8c6;">[</span>2<span style="color: #93a8c6;">]</span> - v1<span style="color: #93a8c6;">[</span>2<span style="color: #93a8c6;">]</span>*v2<span style="color: #93a8c6;">[</span>1<span style="color: #93a8c6;">]</span>,
     - v1<span style="color: #93a8c6;">[</span>0<span style="color: #93a8c6;">]</span>*v2<span style="color: #93a8c6;">[</span>2<span style="color: #93a8c6;">]</span> + v1<span style="color: #93a8c6;">[</span>2<span style="color: #93a8c6;">]</span>*v2<span style="color: #93a8c6;">[</span>0<span style="color: #93a8c6;">]</span>,
     v1<span style="color: #93a8c6;">[</span>0<span style="color: #93a8c6;">]</span>*v2<span style="color: #93a8c6;">[</span>1<span style="color: #93a8c6;">]</span> - v1<span style="color: #93a8c6;">[</span>1<span style="color: #93a8c6;">]</span>*v2<span style="color: #93a8c6;">[</span>0<span style="color: #93a8c6;">]</span>
@@ -738,7 +761,7 @@ Utilizando los productos, podemos definir la ecuación del plano que pasa por tr
 
 <div class="org-src-container">
 <label class="org-src-name">Determinación de la ecuación de un plano por tres ypuntos, y su aplicación a un punto</label>
-<pre class="src src-java"><span style="color: #9370db;">function</span> <span style="color: #00ff7f;">ecuacionDePlanoPorTresPuntos</span><span style="color: #8c8c8c;">(</span><span style="color: #9370db;">p1</span>,<span style="color: #9370db;">p2</span>,<span style="color: #9370db;">p3</span><span style="color: #8c8c8c;">)</span> =
+<pre class="src src-java"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">ecuacionDePlanoPorTresPuntos</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">p1</span>,<span style="color: #98fb98;">p2</span>,<span style="color: #98fb98;">p3</span><span style="color: #8c8c8c;">)</span> =
   let<span style="color: #8c8c8c;">(</span>
     puntoEnElPlano = p1,
     vector1 = p2-p1,
@@ -748,10 +771,10 @@ Utilizando los productos, podemos definir la ecuación del plano que pasa por tr
   <span style="color: #8c8c8c;">)</span>
   <span style="color: #8c8c8c;">[</span>normal,d<span style="color: #8c8c8c;">]</span>;
 
-<span style="color: #9370db;">function</span> <span style="color: #00ff7f;">ecuacionDePlanoPorTresPuntosEnLista</span><span style="color: #8c8c8c;">(</span><span style="color: #9370db;">lista</span><span style="color: #8c8c8c;">)</span> =
+<span style="color: #98fb98;">function</span> <span style="color: #87cefa;">ecuacionDePlanoPorTresPuntosEnLista</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">lista</span><span style="color: #8c8c8c;">)</span> =
    ecuacionDePlanoPorTresPuntos<span style="color: #8c8c8c;">(</span>lista<span style="color: #93a8c6;">[</span>0<span style="color: #93a8c6;">]</span>,lista<span style="color: #93a8c6;">[</span>1<span style="color: #93a8c6;">]</span>,lista<span style="color: #93a8c6;">[</span>2<span style="color: #93a8c6;">]</span><span style="color: #8c8c8c;">)</span>;
 
-<span style="color: #9370db;">function</span> <span style="color: #00ff7f;">sustituyeEcuacionPlano</span><span style="color: #8c8c8c;">(</span><span style="color: #9370db;">ecuacion</span>,<span style="color: #9370db;">punto</span><span style="color: #8c8c8c;">)</span> =
+<span style="color: #98fb98;">function</span> <span style="color: #87cefa;">sustituyeEcuacionPlano</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">ecuacion</span>,<span style="color: #98fb98;">punto</span><span style="color: #8c8c8c;">)</span> =
     productoEscalar<span style="color: #8c8c8c;">(</span>ecuacion<span style="color: #93a8c6;">[</span>0<span style="color: #93a8c6;">]</span>,punto<span style="color: #8c8c8c;">)</span> + ecuacion<span style="color: #8c8c8c;">[</span>1<span style="color: #8c8c8c;">]</span>;
 </pre>
 </div>
@@ -763,7 +786,7 @@ Las siguientes funciones resumen el cálculo de aristas ocultas. Necesitan varia
 
 <div class="org-src-container">
 <label class="org-src-name">Cálculo de aristas exteriores</label>
-<pre class="src src-java"><span style="color: #9370db;">function</span> <span style="color: #00ff7f;">quitarAristasDuplicadas</span><span style="color: #8c8c8c;">(</span><span style="color: #9370db;">aristas</span>,ret=<span style="color: #93a8c6;">[]</span>,indice=0<span style="color: #8c8c8c;">)</span> = 
+<pre class="src src-java"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">quitarAristasDuplicadas</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">aristas</span>,ret=<span style="color: #93a8c6;">[]</span>,indice=0<span style="color: #8c8c8c;">)</span> = 
   indice &gt;= len<span style="color: #8c8c8c;">(</span>aristas<span style="color: #8c8c8c;">)</span> ?
   ret : 
   <span style="color: #8c8c8c;">(</span>
@@ -776,25 +799,25 @@ Las siguientes funciones resumen el cálculo de aristas ocultas. Necesitan varia
       quitarAristasDuplicadas<span style="color: #93a8c6;">(</span>aristas,agregarALista<span style="color: #b0b1a3;">(</span>ret,a1<span style="color: #b0b1a3;">)</span>,indice+1<span style="color: #93a8c6;">)</span>
   <span style="color: #8c8c8c;">)</span>;
 
-<span style="color: #9370db;">function</span> <span style="color: #00ff7f;">aristasExteriores</span><span style="color: #8c8c8c;">(</span><span style="color: #9370db;">vertices</span><span style="color: #8c8c8c;">)</span> =
+<span style="color: #98fb98;">function</span> <span style="color: #87cefa;">aristasExteriores</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">vertices</span><span style="color: #8c8c8c;">)</span> =
     let<span style="color: #8c8c8c;">(</span>
       n = len<span style="color: #93a8c6;">(</span>vertices<span style="color: #93a8c6;">)</span>,
       indicesTriangulos = todosLosTripletesHasta<span style="color: #93a8c6;">(</span>n<span style="color: #93a8c6;">)</span>
     <span style="color: #8c8c8c;">)</span>
     aplanaUnNivel<span style="color: #8c8c8c;">(</span><span style="color: #93a8c6;">[</span>
-        <span style="color: #20b2aa; font-weight: bold;">for</span><span style="color: #b0b1a3;">(</span> indices = indicesTriangulos <span style="color: #b0b1a3;">)</span>
-            <span style="color: #20b2aa; font-weight: bold;">if</span><span style="color: #b0b1a3;">(</span> todosLosPuntosAlMismoLado<span style="color: #97b098;">(</span>indices,vertices<span style="color: #97b098;">)</span> <span style="color: #b0b1a3;">)</span>
+        <span style="color: #00ffff;">for</span><span style="color: #b0b1a3;">(</span> indices = indicesTriangulos <span style="color: #b0b1a3;">)</span>
+            <span style="color: #00ffff;">if</span><span style="color: #b0b1a3;">(</span> todosLosPuntosAlMismoLado<span style="color: #97b098;">(</span>indices,vertices<span style="color: #97b098;">)</span> <span style="color: #b0b1a3;">)</span>
                 aristasDeTriangulo<span style="color: #b0b1a3;">(</span>indices<span style="color: #b0b1a3;">)</span>
     <span style="color: #93a8c6;">]</span><span style="color: #8c8c8c;">)</span>;      
 
-<span style="color: #9370db;">function</span> <span style="color: #00ff7f;">todosLosPuntosAlMismoLado</span><span style="color: #8c8c8c;">(</span><span style="color: #9370db;">triangulo</span>,<span style="color: #9370db;">puntos</span>,tolerancia=1<span style="color: #8c8c8c;">)</span> = 
+<span style="color: #98fb98;">function</span> <span style="color: #87cefa;">todosLosPuntosAlMismoLado</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">triangulo</span>,<span style="color: #98fb98;">puntos</span>,tolerancia=1<span style="color: #8c8c8c;">)</span> = 
    let<span style="color: #8c8c8c;">(</span>
       ecuacionPlano = ecuacionDePlanoPorTresPuntosEnLista<span style="color: #93a8c6;">(</span>trianguloConIndicesDeVertices<span style="color: #b0b1a3;">(</span>triangulo,puntos<span style="color: #b0b1a3;">)</span><span style="color: #93a8c6;">)</span>,
       lados = <span style="color: #93a8c6;">[</span>
-        <span style="color: #20b2aa; font-weight: bold;">for</span><span style="color: #b0b1a3;">(</span>punto=puntos<span style="color: #b0b1a3;">)</span>
+        <span style="color: #00ffff;">for</span><span style="color: #b0b1a3;">(</span>punto=puntos<span style="color: #b0b1a3;">)</span>
             sustituyeEcuacionPlano<span style="color: #b0b1a3;">(</span>ecuacionPlano,punto<span style="color: #b0b1a3;">)</span>
       <span style="color: #93a8c6;">]</span>,
-      ladosNegados = <span style="color: #93a8c6;">[</span><span style="color: #20b2aa; font-weight: bold;">for</span><span style="color: #b0b1a3;">(</span>lado=lados<span style="color: #b0b1a3;">)</span> -lado<span style="color: #93a8c6;">]</span>
+      ladosNegados = <span style="color: #93a8c6;">[</span><span style="color: #00ffff;">for</span><span style="color: #b0b1a3;">(</span>lado=lados<span style="color: #b0b1a3;">)</span> -lado<span style="color: #93a8c6;">]</span>
    <span style="color: #8c8c8c;">)</span>
    todosMayoresOIgualesQue<span style="color: #8c8c8c;">(</span>lados,-tolerancia<span style="color: #8c8c8c;">)</span> ||
         todosMayoresOIgualesQue<span style="color: #8c8c8c;">(</span>ladosNegados,-tolerancia<span style="color: #8c8c8c;">)</span>;
@@ -807,10 +830,10 @@ algoalgoalgoalgoalgoalgo  algoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoa lgoa
 
 <div class="org-src-container">
 <label class="org-src-name">Funciones auxiliares para el cálculo de aristas exteriores</label>
-<pre class="src src-java"><span style="color: #9370db;">function</span> <span style="color: #00ff7f;">todosMayoresOIgualesQue</span><span style="color: #8c8c8c;">(</span><span style="color: #9370db;">valores</span>,<span style="color: #9370db;">umbral</span><span style="color: #8c8c8c;">)</span> =
+<pre class="src src-java"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">todosMayoresOIgualesQue</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">valores</span>,<span style="color: #98fb98;">umbral</span><span style="color: #8c8c8c;">)</span> =
     let<span style="color: #8c8c8c;">(</span>
         comprobaciones = <span style="color: #93a8c6;">[</span>
-            <span style="color: #20b2aa; font-weight: bold;">for</span><span style="color: #b0b1a3;">(</span> v=valores <span style="color: #b0b1a3;">)</span>
+            <span style="color: #00ffff;">for</span><span style="color: #b0b1a3;">(</span> v=valores <span style="color: #b0b1a3;">)</span>
                 v - umbral &gt;= 0 ?
                 1 :
                 0
@@ -820,36 +843,36 @@ algoalgoalgoalgoalgoalgo  algoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoa lgoa
 
 
 
-<span style="color: #9370db;">function</span> <span style="color: #00ff7f;">todosLosTripletesHasta</span><span style="color: #8c8c8c;">(</span><span style="color: #9370db;">n</span><span style="color: #8c8c8c;">)</span> = <span style="color: #8c8c8c;">[</span>
-      <span style="color: #20b2aa; font-weight: bold;">for</span><span style="color: #93a8c6;">(</span> i=<span style="color: #b0b1a3;">[</span>0:n-3<span style="color: #b0b1a3;">]</span> , j=<span style="color: #b0b1a3;">[</span>i+1:n-2<span style="color: #b0b1a3;">]</span> , k=<span style="color: #b0b1a3;">[</span>j+1:n-1<span style="color: #b0b1a3;">]</span> <span style="color: #93a8c6;">)</span> <span style="color: #93a8c6;">[</span>i,j,k<span style="color: #93a8c6;">]</span>
+<span style="color: #98fb98;">function</span> <span style="color: #87cefa;">todosLosTripletesHasta</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">n</span><span style="color: #8c8c8c;">)</span> = <span style="color: #8c8c8c;">[</span>
+      <span style="color: #00ffff;">for</span><span style="color: #93a8c6;">(</span> i=<span style="color: #b0b1a3;">[</span>0:n-3<span style="color: #b0b1a3;">]</span> , j=<span style="color: #b0b1a3;">[</span>i+1:n-2<span style="color: #b0b1a3;">]</span> , k=<span style="color: #b0b1a3;">[</span>j+1:n-1<span style="color: #b0b1a3;">]</span> <span style="color: #93a8c6;">)</span> <span style="color: #93a8c6;">[</span>i,j,k<span style="color: #93a8c6;">]</span>
 <span style="color: #8c8c8c;">]</span>;
 
-<span style="color: #9370db;">function</span> <span style="color: #00ff7f;">trianguloConIndicesDeVertices</span><span style="color: #8c8c8c;">(</span><span style="color: #9370db;">indices</span>,<span style="color: #9370db;">vertices</span><span style="color: #8c8c8c;">)</span> =
+<span style="color: #98fb98;">function</span> <span style="color: #87cefa;">trianguloConIndicesDeVertices</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">indices</span>,<span style="color: #98fb98;">vertices</span><span style="color: #8c8c8c;">)</span> =
   <span style="color: #8c8c8c;">[</span>vertices<span style="color: #93a8c6;">[</span>indices<span style="color: #b0b1a3;">[</span>0<span style="color: #b0b1a3;">]</span><span style="color: #93a8c6;">]</span>, vertices<span style="color: #93a8c6;">[</span>indices<span style="color: #b0b1a3;">[</span>1<span style="color: #b0b1a3;">]</span><span style="color: #93a8c6;">]</span>, vertices<span style="color: #93a8c6;">[</span>indices<span style="color: #b0b1a3;">[</span>2<span style="color: #b0b1a3;">]</span><span style="color: #93a8c6;">]</span><span style="color: #8c8c8c;">]</span>;
 
-<span style="color: #9370db;">function</span> <span style="color: #00ff7f;">aristasDeTriangulo</span><span style="color: #8c8c8c;">(</span><span style="color: #9370db;">triplete</span><span style="color: #8c8c8c;">)</span> = <span style="color: #8c8c8c;">[</span>
+<span style="color: #98fb98;">function</span> <span style="color: #87cefa;">aristasDeTriangulo</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">triplete</span><span style="color: #8c8c8c;">)</span> = <span style="color: #8c8c8c;">[</span>
       <span style="color: #93a8c6;">[</span>triplete<span style="color: #b0b1a3;">[</span>0<span style="color: #b0b1a3;">]</span>,triplete<span style="color: #b0b1a3;">[</span>1<span style="color: #b0b1a3;">]</span><span style="color: #93a8c6;">]</span>,
       <span style="color: #93a8c6;">[</span>triplete<span style="color: #b0b1a3;">[</span>1<span style="color: #b0b1a3;">]</span>,triplete<span style="color: #b0b1a3;">[</span>2<span style="color: #b0b1a3;">]</span><span style="color: #93a8c6;">]</span>,
       <span style="color: #93a8c6;">[</span>triplete<span style="color: #b0b1a3;">[</span>2<span style="color: #b0b1a3;">]</span>,triplete<span style="color: #b0b1a3;">[</span>0<span style="color: #b0b1a3;">]</span><span style="color: #93a8c6;">]</span>
 <span style="color: #8c8c8c;">]</span>;    
 
 <span style="color: #cd853f;">// </span><span style="color: #cd853f;">SI UNA LISTA ES [[[a,b],[c,d]],[[e,f],[g,h]]] la deja en [[a,b],[c,d],[e,f],[g,h]]</span>
-<span style="color: #9370db;">function</span> <span style="color: #00ff7f;">aplanaUnNivel</span><span style="color: #8c8c8c;">(</span><span style="color: #9370db;">lista</span><span style="color: #8c8c8c;">)</span> = <span style="color: #8c8c8c;">[</span>
-      <span style="color: #20b2aa; font-weight: bold;">for</span><span style="color: #93a8c6;">(</span> a = lista , b = a <span style="color: #93a8c6;">)</span> b
+<span style="color: #98fb98;">function</span> <span style="color: #87cefa;">aplanaUnNivel</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">lista</span><span style="color: #8c8c8c;">)</span> = <span style="color: #8c8c8c;">[</span>
+      <span style="color: #00ffff;">for</span><span style="color: #93a8c6;">(</span> a = lista , b = a <span style="color: #93a8c6;">)</span> b
 <span style="color: #8c8c8c;">]</span>;
 
 
-<span style="color: #9370db;">function</span> <span style="color: #00ff7f;">contenidoEnLista</span><span style="color: #8c8c8c;">(</span><span style="color: #9370db;">v</span>,<span style="color: #9370db;">lista</span>,indice=0<span style="color: #8c8c8c;">)</span> =
+<span style="color: #98fb98;">function</span> <span style="color: #87cefa;">contenidoEnLista</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">v</span>,<span style="color: #98fb98;">lista</span>,indice=0<span style="color: #8c8c8c;">)</span> =
   lista<span style="color: #8c8c8c;">[</span>indice<span style="color: #8c8c8c;">]</span> == v ? 
-  <span style="color: #1e90ff;">true</span> : <span style="color: #8c8c8c;">(</span>
+  <span style="color: #7fffd4;">true</span> : <span style="color: #8c8c8c;">(</span>
     indice&gt;=len<span style="color: #93a8c6;">(</span>lista<span style="color: #93a8c6;">)</span> ?
-    <span style="color: #1e90ff;">false</span> :
+    <span style="color: #7fffd4;">false</span> :
     contenidoEnLista<span style="color: #93a8c6;">(</span>v,lista,indice+1<span style="color: #93a8c6;">)</span>
   <span style="color: #8c8c8c;">)</span>;
 
-<span style="color: #9370db;">function</span> <span style="color: #00ff7f;">agregarALista</span><span style="color: #8c8c8c;">(</span><span style="color: #9370db;">lista</span>,<span style="color: #9370db;">valor</span><span style="color: #8c8c8c;">)</span> = <span style="color: #8c8c8c;">[</span>
-      <span style="color: #20b2aa; font-weight: bold;">for</span><span style="color: #93a8c6;">(</span>i=<span style="color: #b0b1a3;">[</span>0:len<span style="color: #97b098;">(</span>lista<span style="color: #97b098;">)</span><span style="color: #b0b1a3;">]</span><span style="color: #93a8c6;">)</span>
-          i &lt; <span style="color: #9370db;">len</span><span style="color: #93a8c6;">(</span>lista<span style="color: #93a8c6;">)</span> ? lista<span style="color: #93a8c6;">[</span>i<span style="color: #93a8c6;">]</span> : valor
+<span style="color: #98fb98;">function</span> <span style="color: #87cefa;">agregarALista</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">lista</span>,<span style="color: #98fb98;">valor</span><span style="color: #8c8c8c;">)</span> = <span style="color: #8c8c8c;">[</span>
+      <span style="color: #00ffff;">for</span><span style="color: #93a8c6;">(</span>i=<span style="color: #b0b1a3;">[</span>0:len<span style="color: #97b098;">(</span>lista<span style="color: #97b098;">)</span><span style="color: #b0b1a3;">]</span><span style="color: #93a8c6;">)</span>
+          i &lt; <span style="color: #98fb98;">len</span><span style="color: #93a8c6;">(</span>lista<span style="color: #93a8c6;">)</span> ? lista<span style="color: #93a8c6;">[</span>i<span style="color: #93a8c6;">]</span> : valor
 <span style="color: #8c8c8c;">]</span>;
 </pre>
 </div>
@@ -878,15 +901,15 @@ vertices = verticesPoliedroElectrostatico<span style="color: #8c8c8c;">(</span>N
 aristas = aristasExteriores<span style="color: #8c8c8c;">(</span>vertices<span style="color: #8c8c8c;">)</span>;
 aristasSinDuplicados = quitarAristasDuplicadas<span style="color: #8c8c8c;">(</span>aristas<span style="color: #8c8c8c;">)</span>;
 
-<span style="color: #9370db;">module</span> <span style="color: #00ff7f;">palo</span><span style="color: #8c8c8c;">(</span><span style="color: #9370db;">a</span>,<span style="color: #9370db;">b</span>,<span style="color: #9370db;">r</span><span style="color: #8c8c8c;">){</span>
-    <span style="color: #00ff7f;">hull</span><span style="color: #93a8c6;">(){</span>
+<span style="color: #98fb98;">module</span> <span style="color: #87cefa;">palo</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">a</span>,<span style="color: #98fb98;">b</span>,<span style="color: #98fb98;">r</span><span style="color: #8c8c8c;">){</span>
+    <span style="color: #87cefa;">hull</span><span style="color: #93a8c6;">(){</span>
         translate<span style="color: #b0b1a3;">(</span>a<span style="color: #b0b1a3;">)</span> sphere<span style="color: #b0b1a3;">(</span>r<span style="color: #b0b1a3;">)</span>;
         translate<span style="color: #b0b1a3;">(</span>b<span style="color: #b0b1a3;">)</span> sphere<span style="color: #b0b1a3;">(</span>r<span style="color: #b0b1a3;">)</span>;
     <span style="color: #93a8c6;">}</span>
 <span style="color: #8c8c8c;">}</span>
 
-<span style="color: #9370db;">module</span> <span style="color: #00ff7f;">aristasAPalos</span><span style="color: #8c8c8c;">(</span><span style="color: #9370db;">aristas</span>,<span style="color: #9370db;">vertices</span>,ancho=10<span style="color: #8c8c8c;">){</span>
-    <span style="color: #20b2aa; font-weight: bold;">for</span><span style="color: #93a8c6;">(</span> i=aristas <span style="color: #93a8c6;">)</span>
+<span style="color: #98fb98;">module</span> <span style="color: #87cefa;">aristasAPalos</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">aristas</span>,<span style="color: #98fb98;">vertices</span>,ancho=10<span style="color: #8c8c8c;">){</span>
+    <span style="color: #00ffff;">for</span><span style="color: #93a8c6;">(</span> i=aristas <span style="color: #93a8c6;">)</span>
         palo<span style="color: #93a8c6;">(</span>vertices<span style="color: #b0b1a3;">[</span>i<span style="color: #97b098;">[</span>0<span style="color: #97b098;">]</span><span style="color: #b0b1a3;">]</span>,vertices<span style="color: #b0b1a3;">[</span>i<span style="color: #97b098;">[</span>1<span style="color: #97b098;">]</span><span style="color: #b0b1a3;">]</span>,ancho<span style="color: #93a8c6;">)</span>;
 <span style="color: #8c8c8c;">}</span>    
 
@@ -898,8 +921,8 @@ aristasAPalos<span style="color: #8c8c8c;">(</span>aristasSinDuplicados,vertices
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="author">Author: Álvaro González Sotillo</p>
-<p class="date">Created: 2016-10-17 lun 11:33</p>
+<p class="author">Autor: Álvaro González Sotillo</p>
+<p class="date">Created: 2016-10-18 mar 12:20</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

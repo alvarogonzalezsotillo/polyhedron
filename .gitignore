@@ -1,2 +1,10 @@
 mathjax
 /electrostatic-polyedron.tex
+_region_.*
+auto
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.toc
+ltxpng
