@@ -11,7 +11,8 @@
 #+LATEX_HEADER_EXTRA: \usepackage{letltxmacro}
 #+LATEX_HEADER_EXTRA: \LetLtxMacro{\originalincludegraphics}{\includegraphics}
 #+LATEX_HEADER_EXTRA: \renewcommand{\includegraphics}[2][]{\IfFileExists{#2.pdf}{\originalincludegraphics[#1]{#2.pdf}}{\originalincludegraphics[#1]{#2}}}
-#+latex_header_extra: \lstset{frame=single,columns=fixed,basicstyle=\scriptsize\ttfamily,breaklines=true,postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\color{red}\hookrightarrow\space}}}
+#+latex_header_extra: \lstset{frame=single,columns=fixed,basicstyle=\scriptsize\ttfamily,breaklines=true,postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\color{red}\hookrightarrow\space}},keywordstyle=\color{blue}\ttfamily,stringstyle=\color{red}\ttfamily,commentstyle=\color{green}\ttfamily}
+#+latex_header_extra: \lstset{emph={function,let,len,import,translate,module,rotate,module,hull,sphere},emphstyle=\color{blue}\ttfamily}
 #+latex_header_extra: \hypersetup{colorlinks,citecolor=black,filecolor=black,linkcolor=black,urlcolor=blue}
 #+latex_header_extra: \renewcommand{\lstlistingname}{Listado}
 #+latex_header_extra: \captionsetup{font={scriptsize}}
@@ -68,13 +69,11 @@ El algoritmo utilizado para determinar las aristas exteriores del poliedro es el
 
       
 * Ejemplos de poliedros para $4\leq N \leq 24$
-  :PROPERTIES:
-  :END:
 
-Los ficheros =STL= de definición de cada poliedro pueden generarse desde la línea de comandos de *OpenSCAD*. El programa se invoca con los parámetros necesarios para fijar el número de vértices a calcular, así como la precisión del cálculo (variables =$fn= y =$fa=). El /shellscript/ del listado [[lis:generacionstl]] muestra un bucle con el cálculo de los poliedros desde 4 a 24 vértices.
+Los ficheros =STL= de definición de cada poliedro pueden generarse desde la línea de comandos de *OpenSCAD*. El programa se invoca con los parámetros necesarios para fijar el número de vértices a calcular, así como la precisión del cálculo (variables =$fn= y =$fa=). El /shellscript/ del listado [[orgsrcblock1]] muestra un bucle con el cálculo de los poliedros desde 4 a 24 vértices.
 
 #+caption: Generación de los sólidos de ejemplo
-#+NAME: lis:generacionstl
+#+NAME: orgsrcblock1
 #+begin_src sh
 #!/bin/sh
 SCADFILE=./electrostatic-polyedron.scad
@@ -89,12 +88,12 @@ do
 done
 #+end_src
 
-Los ficheros =STL= generados pueden visualizarse con *OpenSCAD*, utilizando la orden =import=, como se muestra en el listado [[listadovisualizacionstl]]
+Los ficheros =STL= generados pueden visualizarse con *OpenSCAD*, utilizando la orden =import=, como se muestra en el listado [[orgsrcblock2]]
 
 
 
 
-#+name: listadovisualizacionstl
+#+name: orgsrcblock2
 #+caption: Generación de los sólidos de ejemplo
 #+begin_src java
 STLFILE="poliedro-10.stl";
@@ -107,10 +106,10 @@ rotate([ANGLE,0,0]){
 }
 #+end_src
 
-Las imágenes utilizadas en la tabla [[tablapoliedros]] se han generado con el programa del listado [[listadovisualizacionstl]] y el /script/ del listado [[lis:generacionimagenes]]
+Las imágenes utilizadas en la tabla [[tablapoliedros]] se han generado con el programa del listado [[orgsrcblock1]] y el /script/ del listado [[orgsrcblock3]]
 
 #+caption: Generación de los sólidos de ejemplo
-#+name: lis:generacionimagenes
+#+name: orgsrcblock3
 #+begin_src sh
 #!/bin/bash -x
 SCADFILE=./view-stl.scad
@@ -209,6 +208,15 @@ done
 
 
 * Implementación
+
+Los ficheros descritos en este apartado están disponibles en un repositorio *Github*
+ - Repositorio: https://github.com/alvarogonzalezsotillo/polyhedron
+ - Fichero principal: [[https://github.com/alvarogonzalezsotillo/polyhedron/electrostatic-polyedron.scad][electrostatic-polyedron.scad]]
+ - Fichero principal: [[https://github.com/alvarogonzalezsotillo/polyhedron/electrostatic-polyedron.scad][electrostatic-polyedron.scad]]
+ - Fichero principal: [[https://github.com/alvarogonzalezsotillo/polyhedron/electrostatic-polyedron.scad][electrostatic-polyedron.scad]]
+ - Fichero principal: [[https://github.com/alvarogonzalezsotillo/polyhedron/electrostatic-polyedron.scad][electrostatic-polyedron.scad]]
+ - Fichero principal: [[https://github.com/alvarogonzalezsotillo/polyhedron/electrostatic-polyedron.scad][electrostatic-polyedron.scad]]
+
   
 ** Características del lenguaje
 
