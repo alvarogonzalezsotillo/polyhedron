@@ -36,8 +36,8 @@ Los poliedros generados presentan un alto grado se simetría. La forma final alc
 ** Determinación de la posición de los vértices
 
 Para determinar la posición final de las cargas dentro de la esfera se realiza una simulación del movimiento de las cargas eléctricas dentro de la esfera, hasta que su posición se estabilice. Para ello se siguen los siguientes pasos:
-1. Se inicializan las $N$ cargas a posiciones $c_i$ aleatorias del espacio.
-2. Por cada carga $c_i$:
+1. Se inicializa el conjunto $C$ de las $N$ cargas a posiciones $c_i$ aleatorias del espacio.
+2. Por cada carga $c_i \in C$:
    1. La fuerza de repulsión con cada una de las otras cargas $c_j$ se calcula como \[f_{ij} = K \cdot \frac{(c_i-c_j)}{|(c_i-c_j)|^2}\] La constante $K$ debería representar factores como el intervalo de tiempo de cada paso de la simulación y las masas de las cargas y su resistencia al movimiento, aunque en la práctica se ajusta a valores más altos para acelerar el resultado.
    2. Se suman dichas fuerzas para encontrar la fuerza total resultante $f_i$ sobre $c_i$. $$f_i = \sum_{j \neq i}^{N} f_{ij}$$
 3. Por cada carga $c_i$:
@@ -56,15 +56,15 @@ La figura [[fig:algoritmo]] muestra gráficamente el proceso del cálculo de la 
 [[file:algoritmo.png]]
 
 ** Cubrimiento convexo de los vértices
-Tras a primera parte del cálculo, se obtienen las posiciones $c_i$ de los vértices del poliedro. Cada triplete de puntos define 
+Tras a primera parte del cálculo, se obtienen las posiciones $c_i$ de los vértices del poliedro. Cada triplete de puntos define uno de estos dos tipos de plano: 
 - Una cara /exterior/ (o parte de una cara) de este poliedro.
-- Un triángulo /interior/ que no forma parte del cubrimiento convexo de los vértices.
+- O bien, un triángulo /interior/ que no forma parte del cubrimiento convexo de los vértices.
 
 El algoritmo utilizado para determinar las aristas exteriores del poliedro es el siguiente:
-1. Se parte del conjunto $T$ de todos los tripletes \[ \{ \{c_i,c_j,c_k\} | 1 \leq i < j < k \leq N \}\]
-2. Por cada triplete $\{t_1,t_2,t_3\}$
+1. Se parte del conjunto $T$ de todos los tripletes \[ T = \{ \{c_i,c_j,c_k\} | 1 \leq i < j < k \leq N \}\]
+2. Por cada triplete $\{t_1,t_2,t_3\} \in T$
    1. Se calcula la ecuación del plano que contiene sus tres puntos $ax + by + cy + d = 0$, siendo $\times$ el producto vectorial y $\cdot$ el producto escalar. \[(a,b,c) = (t_2-t_1) \times (t_3, t_1)\]  \[d = -(a,b,c)\cdot t_1\]
-   2. Se sustituye cada punto $c_i$ en la ecuación del plano obtenida. Si el triplete pertenece al cubrimiento convexo, todos los resultados tendrán el mismo signo (o $0$).
+   2. Se sustituye cada punto $c_i \in (C \setminus \{t_1,t_2,t_3\})$  en la ecuación del plano obtenida. Si el triplete pertenece al cubrimiento convexo, todos los resultados tendrán el mismo signo (o $0$).
    3. Si el triplete pertenece al cubrimiento, sus aristas $\{t_1,t_2\}$, $\{t_2,t_3\}$ y $\{t_3,t_1\}$ se añaden al conjunto $A$ de aristas exteriores.  
 
       

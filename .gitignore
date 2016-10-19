@@ -8,3 +8,4 @@ auto
 *.synctex.gz
 *.toc
 ltxpng
+*.tex
