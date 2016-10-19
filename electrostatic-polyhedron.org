@@ -211,11 +211,8 @@ done
 
 Los ficheros descritos en este apartado están disponibles en un repositorio *Github*
  - Repositorio: https://github.com/alvarogonzalezsotillo/polyhedron
- - Fichero principal: [[https://github.com/alvarogonzalezsotillo/polyhedron/electrostatic-polyedron.scad][electrostatic-polyedron.scad]]
- - Fichero principal: [[https://github.com/alvarogonzalezsotillo/polyhedron/electrostatic-polyedron.scad][electrostatic-polyedron.scad]]
- - Fichero principal: [[https://github.com/alvarogonzalezsotillo/polyhedron/electrostatic-polyedron.scad][electrostatic-polyedron.scad]]
- - Fichero principal: [[https://github.com/alvarogonzalezsotillo/polyhedron/electrostatic-polyedron.scad][electrostatic-polyedron.scad]]
- - Fichero principal: [[https://github.com/alvarogonzalezsotillo/polyhedron/electrostatic-polyedron.scad][electrostatic-polyedron.scad]]
+ - Fichero principal: [[https://github.com/alvarogonzalezsotillo/polyhedron/blob/master/electrostatic-polyhedron.scad][electrostatic-polyhedron.scad]]
+
 
   
 ** Características del lenguaje
