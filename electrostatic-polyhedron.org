@@ -211,7 +211,11 @@ done
 
 Los ficheros descritos en este apartado están disponibles en un repositorio *Github*
  - Repositorio: https://github.com/alvarogonzalezsotillo/polyhedron
- - Fichero principal: [[https://github.com/alvarogonzalezsotillo/polyhedron/blob/master/electrostatic-polyhedron.scad][electrostatic-polyhedron.scad]]
+ - Fichero principal =SCAD=: [[https://github.com/alvarogonzalezsotillo/polyhedron/blob/master/electrostatic-polyhedron.scad][electrostatic-polyhedron.scad]]
+ - Este documento
+   - En formato =ORG=: [[https://github.com/alvarogonzalezsotillo/polyhedron/blob/master/electrostatic-polyhedron.org][electrostatic-polyhedron.org]]
+   - En formato =PDF= (a partir del fichero =ORG=): [[https://alvarogonzalezsotillo.github.io/polyhedron/electrostatic-polyhedron.pdf][electrostatic-polyhedron.pdf]]
+   - En formato =HTML= (a partir del fichero =ORG=): [[https://alvarogonzalezsotillo.github.io/polyhedron/electrostatic-polyhedron.html][electrostatic-polyhedron.html]]
 
 
   
