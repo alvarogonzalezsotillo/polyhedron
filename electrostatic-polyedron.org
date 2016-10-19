@@ -80,7 +80,7 @@ SCADFILE=./electrostatic-polyedron.scad
 
 poliedro () {
   local N=$1
-  openscad -o poliedro-$N.stl -D N=$N -D '$fn=50' -D '$fa=50' "$SCADFILE"
+  openscad -o stl/poliedro-$N.stl -D N=$N -D '$fn=50' -D '$fa=50' "$SCADFILE"
 }
 for i in $(seq 4 24)
 do
@@ -96,7 +96,7 @@ Los ficheros =STL= generados pueden visualizarse con *OpenSCAD*, utilizando la o
 #+name: orgsrcblock2
 #+caption: Generación de los sólidos de ejemplo
 #+begin_src java
-STLFILE="poliedro-10.stl";
+STLFILE="images/poliedro-10.stl";
 ANGLE=20;
 
 rotate([ANGLE,0,0]){
@@ -116,9 +116,9 @@ SCADFILE=./view-stl.scad
 
 imagenes() {
   local N=$1
-  local BIG=poliedro-$N.png
-  local SMALL=poliedro-$N-small.png
-  openscad -o $BIG --camera=0,0,525,0,0,0 --colorscheme=Nature -D STLFILE=\"poliedro-$N.stl\" "$SCADFILE"
+  local BIG=images/poliedro-$N.png
+  local SMALL=images/poliedro-$N-small.png
+  openscad -o $BIG --camera=0,0,525,0,0,0 --colorscheme=Nature -D STLFILE=\"stl/poliedro-$N.stl\" "$SCADFILE"
   convert -resize 128x128 $BIG $SMALL
 }
 
@@ -134,33 +134,33 @@ Los ficheros =STL= se han importado en el servicio [[http://www.sculpteo.com][Sc
 #+caption: Poliedros de ejemplo
 #+NAME: tablapoliedros
 #+attr_latex: :placement [Hhtpb]
-|---+----------+-------------+-----------------------------------------------+----------------------------|
-|   | Vértices | Sculpteo ID | Enlace                                        |                            |
-|---+----------+-------------+-----------------------------------------------+----------------------------|
-| / |       <> | <>          |                                               | >                          |
-|   |        4 | hwBvUUPS    | http://www.sculpteo.com/embed/design/hwBvUUPS | [[file:poliedro-4-small.png]]  |
-|   |        5 | zywXZ2Vv    | http://www.sculpteo.com/embed/design/zywXZ2Vv | [[file:poliedro-5-small.png]]  |
-|   |        6 | Hd6M6qdV    | http://www.sculpteo.com/embed/design/Hd6M6qdV | [[file:poliedro-6-small.png]]  |
-|   |        7 | e3Z7njee    | http://www.sculpteo.com/embed/design/e3Z7njee | [[file:poliedro-7-small.png]]  |
-|   |        8 | zF9bWGAC    | http://www.sculpteo.com/embed/design/zF9bWGAC | [[file:poliedro-8-small.png]]  |
-|   |        9 | MTTJEqKN    | http://www.sculpteo.com/embed/design/MTTJEqKN | [[file:poliedro-9-small.png]]  |
-|   |       10 | XHaVXMzy    | http://www.sculpteo.com/embed/design/XHaVXMzy | [[file:poliedro-10-small.png]] |
-|   |       11 | cTu8ZKCy    | http://www.sculpteo.com/embed/design/cTu8ZKCy | [[file:poliedro-11-small.png]] |
-|   |       12 | XHZQE7ST    | http://www.sculpteo.com/embed/design/XHZQE7ST | [[file:poliedro-12-small.png]] |
-|   |       13 | A9fQg8jN    | http://www.sculpteo.com/embed/design/A9fQg8jN | [[file:poliedro-13-small.png]] |
-|   |       14 | BhTtJYyY    | http://www.sculpteo.com/embed/design/BhTtJYyY | [[file:poliedro-14-small.png]] |
-|   |       15 | kyYvU3Xd    | http://www.sculpteo.com/embed/design/kyYvU3Xd | [[file:poliedro-15-small.png]] |
-|   |       16 | HZBAytyz    | http://www.sculpteo.com/embed/design/HZBAytyz | [[file:poliedro-16-small.png]] |
-|   |       17 | BjZoe6GZ    | http://www.sculpteo.com/embed/design/BjZoe6GZ | [[file:poliedro-17-small.png]] |
-|   |       18 | dPc6d8nD    | http://www.sculpteo.com/embed/design/dPc6d8nD | [[file:poliedro-18-small.png]] |
-|   |       19 | PUog4ujR    | http://www.sculpteo.com/embed/design/PUog4ujR | [[file:poliedro-19-small.png]] |
-|   |       20 | Hfhs8x45    | http://www.sculpteo.com/embed/design/Hfhs8x45 | [[file:poliedro-20-small.png]] |
-|   |       21 | SJuWkeMm    | http://www.sculpteo.com/embed/design/SJuWkeMm | [[file:poliedro-21-small.png]] |
-|   |       22 | ii3Bej6z    | http://www.sculpteo.com/embed/design/ii3Bej6z | [[file:poliedro-22-small.png]] |
-|   |       23 | KtMCe5s6    | http://www.sculpteo.com/embed/design/KtMCe5s6 | [[file:poliedro-23-small.png]] |
-|   |       24 | xxAz2juM    | http://www.sculpteo.com/embed/design/xxAz2juM | [[file:poliedro-24-small.png]] |
-|---+----------+-------------+-----------------------------------------------+----------------------------|
-#+tblfm: $4='(concat "http://www.sculpteo.com/embed/design/" $3);::$5='(concat "[[file:poliedro-" $2 "-small.png]]")
+|---+----------+-------------+-----------------------------------------------+---------------------------------------|
+|   | Vértices | Sculpteo ID | Enlace                                        |                                       |
+|---+----------+-------------+-----------------------------------------------+---------------------------------------|
+| / |       <> | <>          |                                               | >                                     |
+|   |        4 | hwBvUUPS    | http://www.sculpteo.com/embed/design/hwBvUUPS | [[file:images/poliedro-4-small.png]]  |
+|   |        5 | zywXZ2Vv    | http://www.sculpteo.com/embed/design/zywXZ2Vv | [[file:images/poliedro-5-small.png]]  |
+|   |        6 | Hd6M6qdV    | http://www.sculpteo.com/embed/design/Hd6M6qdV | [[file:images/poliedro-6-small.png]]  |
+|   |        7 | e3Z7njee    | http://www.sculpteo.com/embed/design/e3Z7njee | [[file:images/poliedro-7-small.png]]  |
+|   |        8 | zF9bWGAC    | http://www.sculpteo.com/embed/design/zF9bWGAC | [[file:images/poliedro-8-small.png]]  |
+|   |        9 | MTTJEqKN    | http://www.sculpteo.com/embed/design/MTTJEqKN | [[file:images/poliedro-9-small.png]]  |
+|   |       10 | XHaVXMzy    | http://www.sculpteo.com/embed/design/XHaVXMzy | [[file:images/poliedro-10-small.png]] |
+|   |       11 | cTu8ZKCy    | http://www.sculpteo.com/embed/design/cTu8ZKCy | [[file:images/poliedro-11-small.png]] |
+|   |       12 | XHZQE7ST    | http://www.sculpteo.com/embed/design/XHZQE7ST | [[file:images/poliedro-12-small.png]] |
+|   |       13 | A9fQg8jN    | http://www.sculpteo.com/embed/design/A9fQg8jN | [[file:images/poliedro-13-small.png]] |
+|   |       14 | BhTtJYyY    | http://www.sculpteo.com/embed/design/BhTtJYyY | [[file:images/poliedro-14-small.png]] |
+|   |       15 | kyYvU3Xd    | http://www.sculpteo.com/embed/design/kyYvU3Xd | [[file:images/poliedro-15-small.png]] |
+|   |       16 | HZBAytyz    | http://www.sculpteo.com/embed/design/HZBAytyz | [[file:images/poliedro-16-small.png]] |
+|   |       17 | BjZoe6GZ    | http://www.sculpteo.com/embed/design/BjZoe6GZ | [[file:images/poliedro-17-small.png]] |
+|   |       18 | dPc6d8nD    | http://www.sculpteo.com/embed/design/dPc6d8nD | [[file:images/poliedro-18-small.png]] |
+|   |       19 | PUog4ujR    | http://www.sculpteo.com/embed/design/PUog4ujR | [[file:images/poliedro-19-small.png]] |
+|   |       20 | Hfhs8x45    | http://www.sculpteo.com/embed/design/Hfhs8x45 | [[file:images/poliedro-20-small.png]] |
+|   |       21 | SJuWkeMm    | http://www.sculpteo.com/embed/design/SJuWkeMm | [[file:images/poliedro-21-small.png]] |
+|   |       22 | ii3Bej6z    | http://www.sculpteo.com/embed/design/ii3Bej6z | [[file:images/poliedro-22-small.png]] |
+|   |       23 | KtMCe5s6    | http://www.sculpteo.com/embed/design/KtMCe5s6 | [[file:images/poliedro-23-small.png]] |
+|   |       24 | xxAz2juM    | http://www.sculpteo.com/embed/design/xxAz2juM | [[file:images/poliedro-24-small.png]] |
+|---+----------+-------------+-----------------------------------------------+---------------------------------------|
+#+tblfm: $4='(concat "http://www.sculpteo.com/embed/design/" $3);::$5='(concat "[[file:images/poliedro-" $2 "-small.png]]")
 
 
 
