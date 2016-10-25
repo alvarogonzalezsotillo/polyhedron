@@ -23,13 +23,13 @@
 # Solo se exporta bien a PDF con (setq org-latex-image-default-width "1cm")
 
 
-* Resumen
+#+begin_abstract 
 Un conjunto de cargas eléctricas del mismo signo en un conductor tienden a repelerse, de forma que se sitúan en una configuración de mínima energía. Esta configuración sitúa las cargas en la superficie del conductor.
 
 El siguiente programa de *OpenSCAD* simula el comportamiento de varias cargas encerradas en un conductor esférico. Tras encontrar la configuración de mínima energía, presenta el resultado como las aristas del cubrimiento convexo de las cargas, siendo este siempre un  poliedro convexo.
 
 Los poliedros generados presentan un alto grado se simetría. La forma final alcanzada parece depender únicamente del número de vértices iniciales, excepto por algunas simetrías especulares.
-
+#+end_abstract
 
 * Cálculo del poliedro
 
@@ -49,7 +49,7 @@ Para determinar la posición final de las cargas dentro de la esfera se realiza 
 
 La figura [[fig:algoritmo]] muestra gráficamente el proceso del cálculo de la nueva posición de una carga, para dos dimensiones y tres cargas totales.
 
-#+caption: Cálculo de la nueva posición de la carga $c_1$ para un total de 3 cargas
+#+caption: Cálculo de la nueva posición $c''_1$ de la carga $c_1$ para un total de 3 cargas
 #+name: fig:algoritmo
 #+attr_html: :width 30%
 #+attr_latex: :width .3\linewidth
@@ -165,39 +165,13 @@ Los ficheros =STL= se han importado en el servicio [[http://www.sculpteo.com][Sc
 
 
 
-#+caption: Generación de las imágenes de ejemplo
-#+begin_src java
-STLFILE="poliedro-10.stl";
-ANGLE=20;
+*** Poliedros regulares
 
-rotate([ANGLE,0,0]){
-     translate([0,0,0]) {
-          import(STLFILE);
-     }
-}
-#+end_src
+Dado el grado de simetría del proceso, no es sorprendente que se consigan varios poliedros regulares. Con $4$, $6$ y $12$ vértices se obtiene un tetraedro, octaedro e icosaedro, respectivamente. 
 
+*** Poliedros con cuadrados
 
-#+caption: Generación de las imágenes de ejemplo
-#+begin_src sh
-#!/bin/sh -x
-SCADFILE=./electrostatic-polyedron.scad
-
-poliedro () {
-  local N=$1
-  openscad -o poliedro-$N.stl -D N=$N -D '$fn=50' -D '$fa=50' "$SCADFILE"
-}
-for i in $(seq 4 24)
-do
-  gecho Generando poliedro $i
-  poliedro $i
-done
-#+end_src
-
-
-
-
-
+Para $6$ y $24$ vértices se obtienen poliedros con varias caras cuadradas, además de las triangulares. Este hecho no puede probarse con el proceso aquí presentado, ya que es un método iterativo de simulación, y se necesitaría una demostración matemática. 
 
 
 
@@ -236,8 +210,9 @@ En la implementación se ha optado por utilizar las mínimas funciones del siste
 
 ** Cálculo de la posición final de las cargas
 
-*OpenSCAD* no ofrece facilidades básicas como la distancia entre puntos tridimentsionales. Esto permite incluir esta función simple a modo de ejemplo de sintaxis de su lenguaje
+*OpenSCAD* no ofrece facilidades básicas como la distancia entre puntos tridimentsionales. Esto permite incluir esta función simple a modo de ejemplo de sintaxis de su lenguaje en el listado [[orgsrcblock4]]
 
+#+name: orgsrcblock4
  #+caption[Listado]: Distancia entre puntos tridimensionales (sqrt es una función incluída en OpenSCAD)
  #+begin_src java
   function distancia(a,b) = 
@@ -249,8 +224,9 @@ En la implementación se ha optado por utilizar las mínimas funciones del siste
     sqrt(dx*dx + dy*dy + dz*dz);
  #+end_src
 
-A diferencia de la mayoría de lenguajes, *OpenSCAD* no ofrece bucles de tipo *mientras*. Estas construcciones deben emularse con funciones recursivas, que utilicen a su vez operador condicional ternario. En este ejemplo, se utiliza una función recursiva para recorrer una lista y acumular sus valores. puede verse también el uso de parámetros por defecto.
+A diferencia de la mayoría de lenguajes, *OpenSCAD* no ofrece bucles de tipo *mientras*. Estas construcciones deben emularse con funciones recursivas, que utilicen a su vez operador condicional ternario. En el ejemplo del listado [[orgsrcblock5]], se utiliza una función recursiva para recorrer una lista y acumular sus valores. puede verse también el uso de parámetros por defecto.
 
+#+name: orgsrcblock5
  #+caption: Distancia entre puntos tridimensionales
  #+begin_src java
   function sumaPuntos(lista) = suma(lista,[0,0,0],0);
@@ -263,8 +239,9 @@ A diferencia de la mayoría de lenguajes, *OpenSCAD* no ofrece bucles de tipo *m
 
 
 
-Los bucles =for= siempre forman parte de un /for comprehension/, lo que implica que su resultado no puee ser un valor único, sino una lista con una posición por cada vuelta. Para conseguir acumular la distancia total entre dos listas de puntos es necesario, por tanto, un bucle =for= y un bucle =while= implementado como función recursiva.
+Los bucles =for= siempre forman parte de un /for comprehension/, lo que implica que su resultado no puee ser un valor único, sino una lista con una posición por cada vuelta. Para conseguir acumular la distancia total entre dos listas de puntos es necesario, por tanto, un bucle =for= y un bucle =while= implementado como función recursiva (ver listado [[orgsrcblock6]]). Las fuerzas aplicadas en cada carga se calculan también como un /for comprehension/, como se muestra en el listado [[orgsrcblock7]]
 
+#+name: orgsrcblock6
  #+caption: Suma de distancias entre dos listas de puntos
  #+begin_src java
   function distancias(puntos1, puntos2 ) =    [
@@ -275,8 +252,9 @@ Los bucles =for= siempre forman parte de un /for comprehension/, lo que implica 
   function errorTotal(puntos1,puntos2) = suma(distancias(puntos1,puntos2));
  #+end_src
 
-Las fuerzas aplicadas en cada carga se calculan también como un /for comprehension/.
 
+
+#+name: orgsrcblock7
  #+caption: Cálclo de las fuerzas que actúan sobre una carga
  #+begin_src java
   function fuerzasParaPunto( p, puntos ) = [
@@ -293,8 +271,9 @@ Las fuerzas aplicadas en cada carga se calculan también como un /for comprehens
 
 
 
-La función =nuevoPuntoParaIteracion= determina la nueva posición de un punto, y la función =iteracion= utiliza la anterior para calcular la nueva posición de todos los puntos. 
+La función =nuevoPuntoParaIteracion= determina la nueva posición de un punto, y la función =iteracion= utiliza la anterior para calcular la nueva posición de todos los puntos (listado [[orgsrcblock8]])
 
+#+name: orgsrcblock8
  #+caption: Cálculo de las nuevas posiciones de las cargas a partir de las actuales
  #+begin_src java
   function normaliza( p, radio ) = radio * p / modulo(p);
@@ -313,10 +292,11 @@ La función =nuevoPuntoParaIteracion= determina la nueva posición de un punto, 
   ];
  #+end_src
 
-La función =iteraCalculoDePuntos= realiza un bucle =while= (nuevamente, en forma de función recursiva) hasta que la diferencia de posición entre un paso y el anterior es menor de un umbral. Por seguridad, se incluye también un límite en el número máximo de iteraciones.
+La función =iteraCalculoDePuntos= realiza un bucle =while= (nuevamente, en forma de función recursiva) hasta que la diferencia de posición entre un paso y el anterior es menor de un umbral. Por seguridad, se incluye también un límite en el número máximo de iteraciones como parámetro por defecto, tal y como se muestra en el listado [[orgsrcblock9]].
 
- #+caption: Bucle hasta no superar una diferencia mínima o un número máximo de iteraciones
- #+begin_src java
+#+name: orgsrcblock9
+#+caption: Bucle hasta no superar una diferencia mínima o un número máximo de iteraciones
+#+begin_src java
   function iteraCalculoDePuntos( puntos, radio=100, errorMaximo=0.01, contador=0, iteracionesMaximas=1000 ) =
     let( 
       siguientesPuntos = iteracion(puntos,radio), 
@@ -327,10 +307,11 @@ La función =iteraCalculoDePuntos= realiza un bucle =while= (nuevamente, en form
           iteraCalculoDePuntos(siguientesPuntos, radio, errorMaximo, contador+1,iteracionesMaximas);
  #+end_src
 
-Tan solo resta comenzar con un número determinado de puntos aleatorios e iterarlos hasta conseguir llegar al equilibrio.
 
- #+caption: Cálculo de los vértices de un poliedro
- #+begin_src java
+Tan solo resta comenzar con un número determinado de puntos aleatorios e iterarlos hasta conseguir llegar al equilibrio (listado [[orgsrcblock10]])
+#+name: orgsrcblock10
+#+caption: Cálculo de los vértices de un poliedro a partir de puntos aleatorios
+#+begin_src java
   function puntoAleatorio() = rands(-1000,1000,3);
 
   function puntosAleatorios(n) = [for( i=[0:n-1] ) puntoAleatorio()];
@@ -340,10 +321,11 @@ Tan solo resta comenzar con un número determinado de puntos aleatorios e iterar
 
 ** Cálculo del cubrimiento convexo
 
-Comenzamos definiendo primitivas básicas para el trabajo con vectores: producto escalar y vectorial. El producto vectorial ya está implementado en *OpenSCAD* (función =cross=), pero se incluye aquí por completitud del algoritmo.
+Comenzamos definiendo primitivas básicas para el trabajo con vectores: producto escalar y vectorial. El producto vectorial ya está implementado en *OpenSCAD* (función =cross=), pero se incluye en el listado [[orgsrcblock11]] por completitud del algoritmo.
 
- #+caption: Cálculo del producto escalar y vectorial
- #+begin_src java
+#+name: orgsrcblock11
+#+caption: Cálculo del producto escalar y vectorial
+#+begin_src java
   function productoEscalar(v1,v2) =
     suma( [ 
       for(i=[0:len(v1)-1]) v1[i]*v2[i] 
@@ -356,10 +338,11 @@ Comenzamos definiendo primitivas básicas para el trabajo con vectores: producto
   ];
 #+end_src
 
-Utilizando los productos, podemos definir la ecuación del plano que pasa por tres puntos, y una función que determina si un punto pertenece a un plano, o si queda a un lado o a otro del mismo.
+Utilizando los productos, podemos definir la ecuación del plano que pasa por tres puntos, y una función que determina si un punto pertenece a un plano, o si queda a un lado o a otro del mismo (listado [[orgsrcblock12]]).
 
- #+caption: Determinación de la ecuación de un plano por tres ypuntos, y su aplicación a un punto
- #+begin_src java
+#+name: orgsrcblock12
+#+caption: Determinación de la ecuación de un plano por tres ypuntos, y su aplicación a un punto
+#+begin_src java
   function ecuacionDePlanoPorTresPuntos(p1,p2,p3) =
     let(
       puntoEnElPlano = p1,
@@ -378,10 +361,11 @@ Utilizando los productos, podemos definir la ecuación del plano que pasa por tr
 #+end_src
 
 
-Las siguientes funciones resumen el cálculo de aristas ocultas. Necesitan varias funciones de utilidad definidas posteriormente.
+Las funciones del listado [[orgsrcblock13]] resumen el cálculo de aristas ocultas. Necesitan varias funciones de utilidad definidas en el listado [[orgsrcblock14]].
 
- #+caption: Cálculo de aristas exteriores
- #+begin_src java
+#+name: orgsrcblock13
+#+caption: Cálculo de aristas exteriores
+#+begin_src java
   function quitarAristasDuplicadas(aristas,ret=[],indice=0) = 
     indice >= len(aristas) ?
     ret : 
@@ -420,10 +404,9 @@ Las siguientes funciones resumen el cálculo de aristas ocultas. Necesitan varia
 
 #+end_src
 
-algoalgoalgoalgoalgoalgo  algoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoa lgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgo algoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgo algoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoa lgoalgoalgoalgoalgoalgoalgoalgo algoalgoalgoalgoalgoalgoa lgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgo algoalgoalgoalgoalgo
-
- #+caption: Funciones auxiliares para el cálculo de aristas exteriores
- #+begin_src java
+#+name: orgsrcblock14
+#+caption: Funciones auxiliares para el cálculo de aristas exteriores
+#+begin_src java
   function todosMayoresOIgualesQue(valores,umbral) =
       let(
           comprobaciones = [
@@ -473,12 +456,11 @@ algoalgoalgoalgoalgoalgo  algoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoa lgoa
 ** Renderización de poliedros
 Hasta el momento, sólo se ha realizado el cálculo de los vértices del poliedro, pero *OpenSCAD* no ha renderizado ninguna forma.
 
-Para que *OpenSCAD* genere algún volumen hay que utilizar un =module= predefinido o uno propio construido a base de los ya existentes.
+Para que *OpenSCAD* genere algún volumen hay que utilizar un =module= predefinido o uno propio construido a base de los ya existentes, como se muestra en el listado [[orgsrcblock15]]. En este caso, cada arista se renderiza como un cilindro rematado por esferas.
 
-En este caso, cada arista se renderiza como un cilindro rematado por esferas.
-
- #+caption: Generación de un poliedro
- #+begin_src java
+#+name: orgsrcblock15
+#+caption: Generación de un poliedro /wireframe/
+#+begin_src java
   N = 20;      
   vertices = verticesPoliedroElectrostatico(N);
   aristas = aristasExteriores(vertices);
@@ -499,6 +481,19 @@ En este caso, cada arista se renderiza como un cilindro rematado por esferas.
   aristasAPalos(aristasSinDuplicados,vertices,5);
 #+end_src
 
+Si se desea visualizar un sólido tradicional, basta con que *OpenSCAD* calcule el cubrimiento de los vértices. En este caso, los vérices se modelan como pequeñas esferas (listado [[orgsrcblock16]])
+
+#+name: orgsrcblock16
+#+caption: Generación de un poliedro sólido 
+#+begin_src java
+module verticesASolido(vertices,radio=1){
+     hull(){
+          for(v = vertices){
+               translate(v) sphere(radio);
+          }
+     }
+}
+#+end_src
 
 
 

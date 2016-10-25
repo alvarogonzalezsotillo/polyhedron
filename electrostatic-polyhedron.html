@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
 <head>
-<!-- 2016-10-19 mié 09:51 -->
+<!-- 2016-10-25 mar 12:41 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="viewport" content="width=device-width, initial-scale=1" />
 <title></title>
@@ -169,29 +169,25 @@ for the JavaScript code in this tag.
 <h2>&Iacute;ndice</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgheadline1">1. Resumen</a></li>
-<li><a href="#orgheadline4">2. Cálculo del poliedro</a>
+<li><a href="#orgheadline3">1. Cálculo del poliedro</a>
 <ul>
-<li><a href="#orgheadline2">2.1. Determinación de la posición de los vértices</a></li>
-<li><a href="#orgheadline3">2.2. Cubrimiento convexo de los vértices</a></li>
+<li><a href="#orgheadline1">1.1. Determinación de la posición de los vértices</a></li>
+<li><a href="#orgheadline2">1.2. Cubrimiento convexo de los vértices</a></li>
 </ul>
 </li>
-<li><a href="#orgheadline5">3. Ejemplos de poliedros para \(4\leq N \leq 24\)</a></li>
-<li><a href="#orgheadline10">4. Implementación</a>
+<li><a href="#orgheadline4">2. Ejemplos de poliedros para \(4\leq N \leq 24\)</a></li>
+<li><a href="#orgheadline9">3. Implementación</a>
 <ul>
-<li><a href="#orgheadline6">4.1. Características del lenguaje</a></li>
-<li><a href="#orgheadline7">4.2. Cálculo de la posición final de las cargas</a></li>
-<li><a href="#orgheadline8">4.3. Cálculo del cubrimiento convexo</a></li>
-<li><a href="#orgheadline9">4.4. Renderización de poliedros</a></li>
+<li><a href="#orgheadline5">3.1. Características del lenguaje</a></li>
+<li><a href="#orgheadline6">3.2. Cálculo de la posición final de las cargas</a></li>
+<li><a href="#orgheadline7">3.3. Cálculo del cubrimiento convexo</a></li>
+<li><a href="#orgheadline8">3.4. Renderización de poliedros</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-
-<div id="outline-container-orgheadline1" class="outline-2">
-<h2 id="orgheadline1"><span class="section-number-2">1</span> Resumen</h2>
-<div class="outline-text-2" id="text-1">
+<div class="abstract">
 <p>
 Un conjunto de cargas eléctricas del mismo signo en un conductor tienden a repelerse, de forma que se sitúan en una configuración de mínima energía. Esta configuración sitúa las cargas en la superficie del conductor.
 </p>
@@ -203,16 +199,15 @@ El siguiente programa de <b>OpenSCAD</b> simula el comportamiento de varias carg
 <p>
 Los poliedros generados presentan un alto grado se simetría. La forma final alcanzada parece depender únicamente del número de vértices iniciales, excepto por algunas simetrías especulares.
 </p>
-</div>
+
 </div>
 
-
-<div id="outline-container-orgheadline4" class="outline-2">
-<h2 id="orgheadline4"><span class="section-number-2">2</span> Cálculo del poliedro</h2>
-<div class="outline-text-2" id="text-2">
-</div><div id="outline-container-orgheadline2" class="outline-3">
-<h3 id="orgheadline2"><span class="section-number-3">2.1</span> Determinación de la posición de los vértices</h3>
-<div class="outline-text-3" id="text-2-1">
+<div id="outline-container-orgheadline3" class="outline-2">
+<h2 id="orgheadline3"><span class="section-number-2">1</span> Cálculo del poliedro</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-orgheadline1" class="outline-3">
+<h3 id="orgheadline1"><span class="section-number-3">1.1</span> Determinación de la posición de los vértices</h3>
+<div class="outline-text-3" id="text-1-1">
 <p>
 Para determinar la posición final de las cargas dentro de la esfera se realiza una simulación del movimiento de las cargas eléctricas dentro de la esfera, hasta que su posición se estabilice. Para ello se siguen los siguientes pasos:
 </p>
@@ -243,14 +238,14 @@ La figura <a href="#orgparagraph1">1</a> muestra gráficamente el proceso del c�
 <div id="orgparagraph1" class="figure">
 <p><img src="algoritmo.png" alt="algoritmo.png" width="30%" />
 </p>
-<p><span class="figure-number">Figura 1:</span> Cálculo de la nueva posición de la carga \(c_1\) para un total de 3 cargas</p>
+<p><span class="figure-number">Figura 1:</span> Cálculo de la nueva posición \(c''_1\) de la carga \(c_1\) para un total de 3 cargas</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgheadline3" class="outline-3">
-<h3 id="orgheadline3"><span class="section-number-3">2.2</span> Cubrimiento convexo de los vértices</h3>
-<div class="outline-text-3" id="text-2-2">
+<div id="outline-container-orgheadline2" class="outline-3">
+<h3 id="orgheadline2"><span class="section-number-3">1.2</span> Cubrimiento convexo de los vértices</h3>
+<div class="outline-text-3" id="text-1-2">
 <p>
 Tras a primera parte del cálculo, se obtienen las posiciones \(c_i\) de los vértices del poliedro. Cada triplete de puntos define uno de estos dos tipos de plano: 
 </p>
@@ -276,9 +271,9 @@ El algoritmo utilizado para determinar las aristas exteriores del poliedro es el
 </div>
 
 
-<div id="outline-container-orgheadline5" class="outline-2">
-<h2 id="orgheadline5"><span class="section-number-2">3</span> Ejemplos de poliedros para \(4\leq N \leq 24\)</h2>
-<div class="outline-text-2" id="text-3">
+<div id="outline-container-orgheadline4" class="outline-2">
+<h2 id="orgheadline4"><span class="section-number-2">2</span> Ejemplos de poliedros para \(4\leq N \leq 24\)</h2>
+<div class="outline-text-2" id="text-2">
 <p>
 Los ficheros <code>STL</code> de definición de cada poliedro pueden generarse desde la línea de comandos de <b>OpenSCAD</b>. El programa se invoca con los parámetros necesarios para fijar el número de vértices a calcular, así como la precisión del cálculo (variables <code>$fn</code> y <code>$fa</code>). El <i>shellscript</i> del listado <a href="#orgsrcblock1">1</a> muestra un bucle con el cálculo de los poliedros desde 4 a 24 vértices.
 </p>
@@ -521,40 +516,6 @@ Los ficheros <code>STL</code> se han importado en el servicio <a href="http://ww
 </tr>
 </tbody>
 </table>
-
-
-
-
-<div class="org-src-container">
-<label class="org-src-name">Generación de las imágenes de ejemplo</label>
-<pre class="src src-java">STLFILE=<span style="color: #ffa07a;">"poliedro-10.stl"</span>;
-ANGLE=20;
-
-rotate<span style="color: #8c8c8c;">(</span><span style="color: #93a8c6;">[</span>ANGLE,0,0<span style="color: #93a8c6;">]</span><span style="color: #8c8c8c;">){</span>
-     translate<span style="color: #93a8c6;">(</span><span style="color: #b0b1a3;">[</span>0,0,0<span style="color: #b0b1a3;">]</span><span style="color: #93a8c6;">)</span> <span style="color: #93a8c6;">{</span>
-          <span style="color: #00ffff;">import</span><span style="color: #b0b1a3;">(</span><span style="color: #98fb98;">STLFILE</span><span style="color: #b0b1a3;">)</span>;
-     <span style="color: #93a8c6;">}</span>
-<span style="color: #8c8c8c;">}</span>
-</pre>
-</div>
-
-
-<div class="org-src-container">
-<label class="org-src-name">Generación de las imágenes de ejemplo</label>
-<pre class="src src-sh"><span style="color: #cd853f;">#</span><span style="color: #cd853f;">!/bin/</span><span style="color: #00ffff;">sh</span><span style="color: #cd853f;"> -x</span>
-<span style="color: #eedd82;">SCADFILE</span>=./electrostatic-polyedron.scad
-
-<span style="color: #87cefa;">poliedro</span> <span style="color: #8c8c8c;">()</span> <span style="color: #8c8c8c;">{</span>
-  <span style="color: #b0c4de;">local</span> <span style="color: #eedd82;">N</span>=$<span style="color: #eedd82;">1</span>
-  openscad -o poliedro-$<span style="color: #eedd82;">N</span>.stl -D <span style="color: #eedd82;">N</span>=$<span style="color: #eedd82;">N</span> -D <span style="color: #ffa07a;">'$fn=50'</span> -D <span style="color: #ffa07a;">'$fa=50'</span> <span style="color: #ffa07a;">"$SCADFILE"</span>
-<span style="color: #8c8c8c;">}</span>
-<span style="color: #00ffff;">for</span> i<span style="color: #00ffff;"> in</span> $<span style="color: #8c8c8c;">(</span>seq 4 24<span style="color: #8c8c8c;">)</span>
-<span style="color: #00ffff;">do</span>
-  gecho Generando poliedro $<span style="color: #eedd82;">i</span>
-  poliedro $<span style="color: #eedd82;">i</span>
-<span style="color: #00ffff;">done</span>
-</pre>
-</div>
 </div>
 </div>
 
@@ -571,9 +532,9 @@ rotate<span style="color: #8c8c8c;">(</span><span style="color: #93a8c6;">[</spa
 
 
 
-<div id="outline-container-orgheadline10" class="outline-2">
-<h2 id="orgheadline10"><span class="section-number-2">4</span> Implementación</h2>
-<div class="outline-text-2" id="text-4">
+<div id="outline-container-orgheadline9" class="outline-2">
+<h2 id="orgheadline9"><span class="section-number-2">3</span> Implementación</h2>
+<div class="outline-text-2" id="text-3">
 <p>
 Los ficheros descritos en este apartado están disponibles en un repositorio <b>Github</b>
 </p>
@@ -591,9 +552,9 @@ Los ficheros descritos en este apartado están disponibles en un repositorio <b>
 
 
 
-<div id="outline-container-orgheadline6" class="outline-3">
-<h3 id="orgheadline6"><span class="section-number-3">4.1</span> Características del lenguaje</h3>
-<div class="outline-text-3" id="text-4-1">
+<div id="outline-container-orgheadline5" class="outline-3">
+<h3 id="orgheadline5"><span class="section-number-3">3.1</span> Características del lenguaje</h3>
+<div class="outline-text-3" id="text-3-1">
 <p>
 El lenguaje de <b>OpenSCAD</b> es de tipo funcional, con funciones matemáticas básicas. 
 </p>
@@ -619,16 +580,16 @@ En la implementación se ha optado por utilizar las mínimas funciones del siste
 </div>
 </div>
 
-<div id="outline-container-orgheadline7" class="outline-3">
-<h3 id="orgheadline7"><span class="section-number-3">4.2</span> Cálculo de la posición final de las cargas</h3>
-<div class="outline-text-3" id="text-4-2">
+<div id="outline-container-orgheadline6" class="outline-3">
+<h3 id="orgheadline6"><span class="section-number-3">3.2</span> Cálculo de la posición final de las cargas</h3>
+<div class="outline-text-3" id="text-3-2">
 <p>
-<b>OpenSCAD</b> no ofrece facilidades básicas como la distancia entre puntos tridimentsionales. Esto permite incluir esta función simple a modo de ejemplo de sintaxis de su lenguaje
+<b>OpenSCAD</b> no ofrece facilidades básicas como la distancia entre puntos tridimentsionales. Esto permite incluir esta función simple a modo de ejemplo de sintaxis de su lenguaje en el listado <a href="#orgsrcblock4">4</a>
 </p>
 
 <div class="org-src-container">
 <label class="org-src-name">Distancia entre puntos tridimensionales (sqrt es una función incluída en OpenSCAD)</label>
-<pre class="src src-java"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">distancia</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">a</span>,<span style="color: #98fb98;">b</span><span style="color: #8c8c8c;">)</span> = 
+<pre class="src src-java" id="orgsrcblock4"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">distancia</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">a</span>,<span style="color: #98fb98;">b</span><span style="color: #8c8c8c;">)</span> = 
   let<span style="color: #8c8c8c;">(</span>
     dx = a<span style="color: #93a8c6;">[</span>0<span style="color: #93a8c6;">]</span>-b<span style="color: #93a8c6;">[</span>0<span style="color: #93a8c6;">]</span>,
     dy = a<span style="color: #93a8c6;">[</span>1<span style="color: #93a8c6;">]</span>-b<span style="color: #93a8c6;">[</span>1<span style="color: #93a8c6;">]</span>,
@@ -639,12 +600,12 @@ En la implementación se ha optado por utilizar las mínimas funciones del siste
 </div>
 
 <p>
-A diferencia de la mayoría de lenguajes, <b>OpenSCAD</b> no ofrece bucles de tipo <b>mientras</b>. Estas construcciones deben emularse con funciones recursivas, que utilicen a su vez operador condicional ternario. En este ejemplo, se utiliza una función recursiva para recorrer una lista y acumular sus valores. puede verse también el uso de parámetros por defecto.
+A diferencia de la mayoría de lenguajes, <b>OpenSCAD</b> no ofrece bucles de tipo <b>mientras</b>. Estas construcciones deben emularse con funciones recursivas, que utilicen a su vez operador condicional ternario. En el ejemplo del listado <a href="#orgsrcblock5">5</a>, se utiliza una función recursiva para recorrer una lista y acumular sus valores. puede verse también el uso de parámetros por defecto.
 </p>
 
 <div class="org-src-container">
 <label class="org-src-name">Distancia entre puntos tridimensionales</label>
-<pre class="src src-java"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">sumaPuntos</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">lista</span><span style="color: #8c8c8c;">)</span> = suma<span style="color: #8c8c8c;">(</span>lista,<span style="color: #93a8c6;">[</span>0,0,0<span style="color: #93a8c6;">]</span>,0<span style="color: #8c8c8c;">)</span>;
+<pre class="src src-java" id="orgsrcblock5"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">sumaPuntos</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">lista</span><span style="color: #8c8c8c;">)</span> = suma<span style="color: #8c8c8c;">(</span>lista,<span style="color: #93a8c6;">[</span>0,0,0<span style="color: #93a8c6;">]</span>,0<span style="color: #8c8c8c;">)</span>;
 <span style="color: #98fb98;">function</span> <span style="color: #87cefa;">suma</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">lista</span>,retorno=0,i=0<span style="color: #8c8c8c;">)</span> = 
   i&gt;=len<span style="color: #8c8c8c;">(</span>lista<span style="color: #8c8c8c;">)</span> ? 
   retorno : 
@@ -656,12 +617,12 @@ A diferencia de la mayoría de lenguajes, <b>OpenSCAD</b> no ofrece bucles de ti
 
 
 <p>
-Los bucles <code>for</code> siempre forman parte de un <i>for comprehension</i>, lo que implica que su resultado no puee ser un valor único, sino una lista con una posición por cada vuelta. Para conseguir acumular la distancia total entre dos listas de puntos es necesario, por tanto, un bucle <code>for</code> y un bucle <code>while</code> implementado como función recursiva.
+Los bucles <code>for</code> siempre forman parte de un <i>for comprehension</i>, lo que implica que su resultado no puee ser un valor único, sino una lista con una posición por cada vuelta. Para conseguir acumular la distancia total entre dos listas de puntos es necesario, por tanto, un bucle <code>for</code> y un bucle <code>while</code> implementado como función recursiva (ver listado <a href="#orgsrcblock6">6</a>). Las fuerzas aplicadas en cada carga se calculan también como un <i>for comprehension</i>, como se muestra en el listado <a href="#orgsrcblock7">7</a>
 </p>
 
 <div class="org-src-container">
 <label class="org-src-name">Suma de distancias entre dos listas de puntos</label>
-<pre class="src src-java"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">distancias</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">puntos1</span>, <span style="color: #98fb98;">puntos2</span> <span style="color: #8c8c8c;">)</span> =    <span style="color: #8c8c8c;">[</span>
+<pre class="src src-java" id="orgsrcblock6"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">distancias</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">puntos1</span>, <span style="color: #98fb98;">puntos2</span> <span style="color: #8c8c8c;">)</span> =    <span style="color: #8c8c8c;">[</span>
      <span style="color: #00ffff;">for</span><span style="color: #93a8c6;">(</span> i =<span style="color: #b0b1a3;">[</span>0:1:len<span style="color: #97b098;">(</span>puntos1<span style="color: #97b098;">)</span>-1<span style="color: #b0b1a3;">]</span> <span style="color: #93a8c6;">)</span>
          distancia<span style="color: #93a8c6;">(</span>puntos1<span style="color: #b0b1a3;">[</span>i<span style="color: #b0b1a3;">]</span>,puntos2<span style="color: #b0b1a3;">[</span>i<span style="color: #b0b1a3;">]</span><span style="color: #93a8c6;">)</span>
 <span style="color: #8c8c8c;">]</span>;
@@ -670,13 +631,11 @@ Los bucles <code>for</code> siempre forman parte de un <i>for comprehension</i>,
 </pre>
 </div>
 
-<p>
-Las fuerzas aplicadas en cada carga se calculan también como un <i>for comprehension</i>.
-</p>
+
 
 <div class="org-src-container">
 <label class="org-src-name">Cálclo de las fuerzas que actúan sobre una carga</label>
-<pre class="src src-java"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">fuerzasParaPunto</span><span style="color: #8c8c8c;">(</span> <span style="color: #98fb98;">p</span>, <span style="color: #98fb98;">puntos</span> <span style="color: #8c8c8c;">)</span> = <span style="color: #8c8c8c;">[</span>
+<pre class="src src-java" id="orgsrcblock7"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">fuerzasParaPunto</span><span style="color: #8c8c8c;">(</span> <span style="color: #98fb98;">p</span>, <span style="color: #98fb98;">puntos</span> <span style="color: #8c8c8c;">)</span> = <span style="color: #8c8c8c;">[</span>
  <span style="color: #00ffff;">for</span><span style="color: #93a8c6;">(</span> punto = puntos <span style="color: #93a8c6;">)</span>
    let<span style="color: #93a8c6;">(</span>
       d = distancia<span style="color: #b0b1a3;">(</span>p,punto<span style="color: #b0b1a3;">)</span>
@@ -692,12 +651,12 @@ Las fuerzas aplicadas en cada carga se calculan también como un <i>for comprehe
 
 
 <p>
-La función <code>nuevoPuntoParaIteracion</code> determina la nueva posición de un punto, y la función <code>iteracion</code> utiliza la anterior para calcular la nueva posición de todos los puntos. 
+La función <code>nuevoPuntoParaIteracion</code> determina la nueva posición de un punto, y la función <code>iteracion</code> utiliza la anterior para calcular la nueva posición de todos los puntos (listado <a href="#orgsrcblock8">8</a>)
 </p>
 
 <div class="org-src-container">
 <label class="org-src-name">Cálculo de las nuevas posiciones de las cargas a partir de las actuales</label>
-<pre class="src src-java"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">normaliza</span><span style="color: #8c8c8c;">(</span> <span style="color: #98fb98;">p</span>, <span style="color: #98fb98;">radio</span> <span style="color: #8c8c8c;">)</span> = radio * p / modulo<span style="color: #8c8c8c;">(</span>p<span style="color: #8c8c8c;">)</span>;
+<pre class="src src-java" id="orgsrcblock8"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">normaliza</span><span style="color: #8c8c8c;">(</span> <span style="color: #98fb98;">p</span>, <span style="color: #98fb98;">radio</span> <span style="color: #8c8c8c;">)</span> = radio * p / modulo<span style="color: #8c8c8c;">(</span>p<span style="color: #8c8c8c;">)</span>;
 
 <span style="color: #98fb98;">function</span> <span style="color: #87cefa;">nuevoPuntoParaIteracion</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">p</span>,<span style="color: #98fb98;">puntos</span>, radio=100<span style="color: #8c8c8c;">)</span> = 
    let<span style="color: #8c8c8c;">(</span>
@@ -715,12 +674,12 @@ La función <code>nuevoPuntoParaIteracion</code> determina la nueva posición de
 </div>
 
 <p>
-La función <code>iteraCalculoDePuntos</code> realiza un bucle <code>while</code> (nuevamente, en forma de función recursiva) hasta que la diferencia de posición entre un paso y el anterior es menor de un umbral. Por seguridad, se incluye también un límite en el número máximo de iteraciones.
+La función <code>iteraCalculoDePuntos</code> realiza un bucle <code>while</code> (nuevamente, en forma de función recursiva) hasta que la diferencia de posición entre un paso y el anterior es menor de un umbral. Por seguridad, se incluye también un límite en el número máximo de iteraciones como parámetro por defecto, tal y como se muestra en el listado <a href="#orgsrcblock9">9</a>.
 </p>
 
 <div class="org-src-container">
 <label class="org-src-name">Bucle hasta no superar una diferencia mínima o un número máximo de iteraciones</label>
-<pre class="src src-java"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">iteraCalculoDePuntos</span><span style="color: #8c8c8c;">(</span> <span style="color: #98fb98;">puntos</span>, radio=100, errorMaximo=0.01, contador=0, iteracionesMaximas=1000 <span style="color: #8c8c8c;">)</span> =
+<pre class="src src-java" id="orgsrcblock9"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">iteraCalculoDePuntos</span><span style="color: #8c8c8c;">(</span> <span style="color: #98fb98;">puntos</span>, radio=100, errorMaximo=0.01, contador=0, iteracionesMaximas=1000 <span style="color: #8c8c8c;">)</span> =
   let<span style="color: #8c8c8c;">(</span> 
     siguientesPuntos = iteracion<span style="color: #93a8c6;">(</span>puntos,radio<span style="color: #93a8c6;">)</span>, 
     error = errorTotal<span style="color: #93a8c6;">(</span>siguientesPuntos, puntos<span style="color: #93a8c6;">)</span>
@@ -731,13 +690,13 @@ La función <code>iteraCalculoDePuntos</code> realiza un bucle <code>while</code
 </pre>
 </div>
 
-<p>
-Tan solo resta comenzar con un número determinado de puntos aleatorios e iterarlos hasta conseguir llegar al equilibrio.
-</p>
 
+<p>
+Tan solo resta comenzar con un número determinado de puntos aleatorios e iterarlos hasta conseguir llegar al equilibrio (listado <a href="#orgsrcblock10">10</a>)
+</p>
 <div class="org-src-container">
-<label class="org-src-name">Cálculo de los vértices de un poliedro</label>
-<pre class="src src-java"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">puntoAleatorio</span><span style="color: #8c8c8c;">()</span> = rands<span style="color: #8c8c8c;">(</span>-1000,1000,3<span style="color: #8c8c8c;">)</span>;
+<label class="org-src-name">Cálculo de los vértices de un poliedro a partir de puntos aleatorios</label>
+<pre class="src src-java" id="orgsrcblock10"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">puntoAleatorio</span><span style="color: #8c8c8c;">()</span> = rands<span style="color: #8c8c8c;">(</span>-1000,1000,3<span style="color: #8c8c8c;">)</span>;
 
 <span style="color: #98fb98;">function</span> <span style="color: #87cefa;">puntosAleatorios</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">n</span><span style="color: #8c8c8c;">)</span> = <span style="color: #8c8c8c;">[</span><span style="color: #00ffff;">for</span><span style="color: #93a8c6;">(</span> i=<span style="color: #b0b1a3;">[</span>0:n-1<span style="color: #b0b1a3;">]</span> <span style="color: #93a8c6;">)</span> puntoAleatorio<span style="color: #93a8c6;">()</span><span style="color: #8c8c8c;">]</span>;
 
@@ -747,16 +706,16 @@ Tan solo resta comenzar con un número determinado de puntos aleatorios e iterar
 </div>
 </div>
 
-<div id="outline-container-orgheadline8" class="outline-3">
-<h3 id="orgheadline8"><span class="section-number-3">4.3</span> Cálculo del cubrimiento convexo</h3>
-<div class="outline-text-3" id="text-4-3">
+<div id="outline-container-orgheadline7" class="outline-3">
+<h3 id="orgheadline7"><span class="section-number-3">3.3</span> Cálculo del cubrimiento convexo</h3>
+<div class="outline-text-3" id="text-3-3">
 <p>
-Comenzamos definiendo primitivas básicas para el trabajo con vectores: producto escalar y vectorial. El producto vectorial ya está implementado en <b>OpenSCAD</b> (función <code>cross</code>), pero se incluye aquí por completitud del algoritmo.
+Comenzamos definiendo primitivas básicas para el trabajo con vectores: producto escalar y vectorial. El producto vectorial ya está implementado en <b>OpenSCAD</b> (función <code>cross</code>), pero se incluye en el listado <a href="#orgsrcblock11">11</a> por completitud del algoritmo.
 </p>
 
 <div class="org-src-container">
 <label class="org-src-name">Cálculo del producto escalar y vectorial</label>
-<pre class="src src-java"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">productoEscalar</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">v1</span>,<span style="color: #98fb98;">v2</span><span style="color: #8c8c8c;">)</span> =
+<pre class="src src-java" id="orgsrcblock11"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">productoEscalar</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">v1</span>,<span style="color: #98fb98;">v2</span><span style="color: #8c8c8c;">)</span> =
   suma<span style="color: #8c8c8c;">(</span> <span style="color: #93a8c6;">[</span> 
     <span style="color: #00ffff;">for</span><span style="color: #b0b1a3;">(</span>i=<span style="color: #97b098;">[</span>0:len<span style="color: #aebed8;">(</span>v1<span style="color: #aebed8;">)</span>-1<span style="color: #97b098;">]</span><span style="color: #b0b1a3;">)</span> v1<span style="color: #b0b1a3;">[</span>i<span style="color: #b0b1a3;">]</span>*v2<span style="color: #b0b1a3;">[</span>i<span style="color: #b0b1a3;">]</span> 
   <span style="color: #93a8c6;">]</span> <span style="color: #8c8c8c;">)</span>;
@@ -770,12 +729,12 @@ Comenzamos definiendo primitivas básicas para el trabajo con vectores: producto
 </div>
 
 <p>
-Utilizando los productos, podemos definir la ecuación del plano que pasa por tres puntos, y una función que determina si un punto pertenece a un plano, o si queda a un lado o a otro del mismo.
+Utilizando los productos, podemos definir la ecuación del plano que pasa por tres puntos, y una función que determina si un punto pertenece a un plano, o si queda a un lado o a otro del mismo (listado <a href="#orgsrcblock12">12</a>).
 </p>
 
 <div class="org-src-container">
 <label class="org-src-name">Determinación de la ecuación de un plano por tres ypuntos, y su aplicación a un punto</label>
-<pre class="src src-java"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">ecuacionDePlanoPorTresPuntos</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">p1</span>,<span style="color: #98fb98;">p2</span>,<span style="color: #98fb98;">p3</span><span style="color: #8c8c8c;">)</span> =
+<pre class="src src-java" id="orgsrcblock12"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">ecuacionDePlanoPorTresPuntos</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">p1</span>,<span style="color: #98fb98;">p2</span>,<span style="color: #98fb98;">p3</span><span style="color: #8c8c8c;">)</span> =
   let<span style="color: #8c8c8c;">(</span>
     puntoEnElPlano = p1,
     vector1 = p2-p1,
@@ -795,12 +754,12 @@ Utilizando los productos, podemos definir la ecuación del plano que pasa por tr
 
 
 <p>
-Las siguientes funciones resumen el cálculo de aristas ocultas. Necesitan varias funciones de utilidad definidas posteriormente.
+Las funciones del listado <a href="#orgsrcblock13">13</a> resumen el cálculo de aristas ocultas. Necesitan varias funciones de utilidad definidas en el listado <a href="#orgsrcblock14">14</a>.
 </p>
 
 <div class="org-src-container">
 <label class="org-src-name">Cálculo de aristas exteriores</label>
-<pre class="src src-java"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">quitarAristasDuplicadas</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">aristas</span>,ret=<span style="color: #93a8c6;">[]</span>,indice=0<span style="color: #8c8c8c;">)</span> = 
+<pre class="src src-java" id="orgsrcblock13"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">quitarAristasDuplicadas</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">aristas</span>,ret=<span style="color: #93a8c6;">[]</span>,indice=0<span style="color: #8c8c8c;">)</span> = 
   indice &gt;= len<span style="color: #8c8c8c;">(</span>aristas<span style="color: #8c8c8c;">)</span> ?
   ret : 
   <span style="color: #8c8c8c;">(</span>
@@ -838,13 +797,9 @@ Las siguientes funciones resumen el cálculo de aristas ocultas. Necesitan varia
 </pre>
 </div>
 
-<p>
-algoalgoalgoalgoalgoalgo  algoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoa lgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgo algoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgo algoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoa lgoalgoalgoalgoalgoalgoalgoalgo algoalgoalgoalgoalgoalgoa lgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgo algoalgoalgoalgoalgo
-</p>
-
 <div class="org-src-container">
 <label class="org-src-name">Funciones auxiliares para el cálculo de aristas exteriores</label>
-<pre class="src src-java"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">todosMayoresOIgualesQue</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">valores</span>,<span style="color: #98fb98;">umbral</span><span style="color: #8c8c8c;">)</span> =
+<pre class="src src-java" id="orgsrcblock14"><span style="color: #98fb98;">function</span> <span style="color: #87cefa;">todosMayoresOIgualesQue</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">valores</span>,<span style="color: #98fb98;">umbral</span><span style="color: #8c8c8c;">)</span> =
     let<span style="color: #8c8c8c;">(</span>
         comprobaciones = <span style="color: #93a8c6;">[</span>
             <span style="color: #00ffff;">for</span><span style="color: #b0b1a3;">(</span> v=valores <span style="color: #b0b1a3;">)</span>
@@ -893,24 +848,20 @@ algoalgoalgoalgoalgoalgo  algoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoalgoa lgoa
 </div>
 </div>
 
-<div id="outline-container-orgheadline9" class="outline-3">
-<h3 id="orgheadline9"><span class="section-number-3">4.4</span> Renderización de poliedros</h3>
-<div class="outline-text-3" id="text-4-4">
+<div id="outline-container-orgheadline8" class="outline-3">
+<h3 id="orgheadline8"><span class="section-number-3">3.4</span> Renderización de poliedros</h3>
+<div class="outline-text-3" id="text-3-4">
 <p>
 Hasta el momento, sólo se ha realizado el cálculo de los vértices del poliedro, pero <b>OpenSCAD</b> no ha renderizado ninguna forma.
 </p>
 
 <p>
-Para que <b>OpenSCAD</b> genere algún volumen hay que utilizar un <code>module</code> predefinido o uno propio construido a base de los ya existentes.
-</p>
-
-<p>
-En este caso, cada arista se renderiza como un cilindro rematado por esferas.
+Para que <b>OpenSCAD</b> genere algún volumen hay que utilizar un <code>module</code> predefinido o uno propio construido a base de los ya existentes, como se muestra en el listado <a href="#orgsrcblock15">15</a>. En este caso, cada arista se renderiza como un cilindro rematado por esferas.
 </p>
 
 <div class="org-src-container">
-<label class="org-src-name">Generación de un poliedro</label>
-<pre class="src src-java">N = 20;      
+<label class="org-src-name">Generación de un poliedro <i>wireframe</i></label>
+<pre class="src src-java" id="orgsrcblock15">N = 20;      
 vertices = verticesPoliedroElectrostatico<span style="color: #8c8c8c;">(</span>N<span style="color: #8c8c8c;">)</span>;
 aristas = aristasExteriores<span style="color: #8c8c8c;">(</span>vertices<span style="color: #8c8c8c;">)</span>;
 aristasSinDuplicados = quitarAristasDuplicadas<span style="color: #8c8c8c;">(</span>aristas<span style="color: #8c8c8c;">)</span>;
@@ -930,13 +881,29 @@ aristasSinDuplicados = quitarAristasDuplicadas<span style="color: #8c8c8c;">(</s
 aristasAPalos<span style="color: #8c8c8c;">(</span>aristasSinDuplicados,vertices,5<span style="color: #8c8c8c;">)</span>;
 </pre>
 </div>
+
+<p>
+Si se desea visualizar un sólido tradicional, basta con que <b>OpenSCAD</b> calcule el cubrimiento de los vértices. En este caso, los vérices se modelan como pequeñas esferas (listado <a href="#orgsrcblock16">16</a>)
+</p>
+
+<div class="org-src-container">
+<label class="org-src-name">Generación de un poliedro sólido</label>
+<pre class="src src-java" id="orgsrcblock16"><span style="color: #98fb98;">module</span> <span style="color: #87cefa;">verticesASolido</span><span style="color: #8c8c8c;">(</span><span style="color: #98fb98;">vertices</span>,radio=1<span style="color: #8c8c8c;">){</span>
+     <span style="color: #87cefa;">hull</span><span style="color: #93a8c6;">(){</span>
+          <span style="color: #00ffff;">for</span><span style="color: #b0b1a3;">(</span>v = vertices<span style="color: #b0b1a3;">){</span>
+               translate<span style="color: #97b098;">(</span>v<span style="color: #97b098;">)</span> sphere<span style="color: #97b098;">(</span>radio<span style="color: #97b098;">)</span>;
+          <span style="color: #b0b1a3;">}</span>
+     <span style="color: #93a8c6;">}</span>
+<span style="color: #8c8c8c;">}</span>
+</pre>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Autor: Álvaro González Sotillo</p>
-<p class="date">Created: 2016-10-19 mié 09:51</p>
+<p class="date">Created: 2016-10-25 mar 12:41</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
