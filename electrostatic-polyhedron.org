@@ -7,7 +7,6 @@
 #+latex_header: \usepackage[spanish]{babel}
 #+latex_header: \usepackage{caption}
 #+latex_header: \usepackage{listings}
-#+attr_latex: :width 1pt :placement [H]
 #+LATEX_HEADER_EXTRA: \usepackage{letltxmacro}
 #+LATEX_HEADER_EXTRA: \LetLtxMacro{\originalincludegraphics}{\includegraphics}
 #+LATEX_HEADER_EXTRA: \renewcommand{\includegraphics}[2][]{\IfFileExists{#2.pdf}{\originalincludegraphics[#1]{#2.pdf}}{\originalincludegraphics[#1]{#2}}}
@@ -26,7 +25,7 @@
 #+begin_abstract 
 Un conjunto de cargas eléctricas del mismo signo en un conductor tienden a repelerse, de forma que se sitúan en una configuración de mínima energía. Esta configuración sitúa las cargas en la superficie del conductor.
 
-El siguiente programa de *OpenSCAD* simula el comportamiento de varias cargas encerradas en un conductor esférico. Tras encontrar la configuración de mínima energía, presenta el resultado como las aristas del cubrimiento convexo de las cargas, siendo este siempre un  poliedro convexo.
+El siguiente programa de *OpenSCAD* simula el comportamiento de varias cargas encerradas en un conductor esférico. Tras encontrar la configuración de mínima energía, se representa como las aristas del poliedro que resulta del cubrimiento convexo de las cargas.
 
 Los poliedros generados presentan un alto grado se simetría. La forma final alcanzada parece depender únicamente del número de vértices iniciales, excepto por algunas simetrías especulares.
 #+end_abstract
@@ -165,17 +164,37 @@ Los ficheros =STL= se han importado en el servicio [[http://www.sculpteo.com][Sc
 
 
 
-*** Poliedros regulares
+** Poliedros regulares
 
 Dado el grado de simetría del proceso, no es sorprendente que se consigan varios poliedros regulares. Con $4$, $6$ y $12$ vértices se obtiene un tetraedro, octaedro e icosaedro, respectivamente. 
 
-*** Poliedros con cuadrados
+** Poliedros con cuadrados
 
-Para $6$ y $24$ vértices se obtienen poliedros con varias caras cuadradas, además de las triangulares. Este hecho no puede probarse con el proceso aquí presentado, ya que es un método iterativo de simulación, y se necesitaría una demostración matemática. 
+Para $8$ y $24$ vértices se obtienen poliedros con varias caras cuadradas, además de las triangulares. Este hecho no puede probarse con el proceso aquí presentado, ya que es un método iterativo de simulación, y se necesitaría una demostración matemática. 
+
+#+attr_latex: :width .5\linewidth :position [H]
+#+caption: $N=8$ genera un poliedro con dos caras cuadradas
+[[file:images/manual/poliedro-8-1.png]]
 
 
+#+attr_latex: :width .5\linewidth :position [H]
+#+caption: $N=8$ posee una proyección con contorno octogonal regular 
+[[file:images/manual/poliedro-8-2.png]]
+
+#+attr_latex: :width .5\linewidth :position [H]
+#+caption: $N=24$ consigue un poliedro con 6 caras cuadradas, que podría tallarse en un cubo
+[[file:images/manual/poliedro-24-1.png]]
+
+Para $17$ el poliedro generado no contiene cuadrados /por muy poco/. Aún así se incluye en este apartado por su simetría pentagonal. El autor ha bautizado esta forma geométrica como *pachiedro*.
+
+#+attr_latex: :width .5\linewidth :position [H]
+#+caption: $N=17$ ofrece una perspectiva con simetria pentagonal
+[[file:images/manual/poliedro-17-1.png]]
 
 
+#+attr_latex: :width .5\linewidth :position [H]
+#+caption: En esta vista de $N=17$ se observan uno de los /casi/ 5 cuadrados del poliedro de forma tangencial, abajo a la izquierda 
+[[file:images/manual/poliedro-17-2.png]]
 
 
 
