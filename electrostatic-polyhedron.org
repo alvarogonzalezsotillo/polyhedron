@@ -1,5 +1,6 @@
 #+org_title: Poliedros basados en configuraciones de mínima energía entre vértices
 #+LANGUAGE: es
+#+options: toc:nil
 #+latex_class_options: [a4paper]
 #+latex_header: \usepackage[margin=2cm]{geometry}
 #+latex_header: \usepackage{amsmath}
@@ -7,9 +8,20 @@
 #+latex_header: \usepackage[spanish]{babel}
 #+latex_header: \usepackage{caption}
 #+latex_header: \usepackage{listings}
+#+LATEX_HEADER_EXTRA: \makeatletter
+#+LATEX_HEADER_EXTRA:\def\ifenv#1{
+#+LATEX_HEADER_EXTRA:   \def\@tempa{#1}%
+#+LATEX_HEADER_EXTRA:   \ifx\@tempa\@currenvir
+#+LATEX_HEADER_EXTRA:      \expandafter\@firstoftwo
+#+LATEX_HEADER_EXTRA:    \else
+#+LATEX_HEADER_EXTRA:      \expandafter\@secondoftwo
+#+LATEX_HEADER_EXTRA:   \fi
+#+LATEX_HEADER_EXTRA:}
+#+LATEX_HEADER_EXTRA:\makeatother
 #+LATEX_HEADER_EXTRA: \usepackage{letltxmacro}
 #+LATEX_HEADER_EXTRA: \LetLtxMacro{\originalincludegraphics}{\includegraphics}
-#+LATEX_HEADER_EXTRA: \renewcommand{\includegraphics}[2][]{\IfFileExists{#2.pdf}{\originalincludegraphics[#1]{#2.pdf}}{\originalincludegraphics[#1]{#2}}}
+#+latex_header_extra: \newcommand{\nuevoincludegraphics}[2][]{\IfFileExists{#2.pdf}{\originalincludegraphics[#1]{#2.pdf}}{\originalincludegraphics[#1]{#2}}}
+#+LATEX_HEADER_EXTRA: \renewcommand{\includegraphics}[2][]{\ifenv{longtable}{\nuevoincludegraphics[#1]{#2}}{\begin{center}\nuevoincludegraphics[#1]{#2}\end{center}}}
 #+latex_header_extra: \lstset{frame=single,columns=fixed,basicstyle=\scriptsize\ttfamily,breaklines=true,postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\color{red}\hookrightarrow\space}},keywordstyle=\color{blue}\ttfamily,stringstyle=\color{red}\ttfamily,commentstyle=\color{green}\ttfamily}
 #+latex_header_extra: \lstset{emph={function,let,len,import,translate,module,rotate,module,hull,sphere},emphstyle=\color{blue}\ttfamily}
 #+latex_header_extra: \hypersetup{colorlinks,citecolor=black,filecolor=black,linkcolor=black,urlcolor=blue}
@@ -22,6 +34,13 @@
 # Solo se exporta bien a PDF con (setq org-latex-image-default-width "1cm")
 
 
+
+#+attr_html: :width 90%
+#+attr_latex: :width .9\linewidth
+[[file:images/artist/portada-1.png]]
+
+#+TOC: headlines 2 local
+
 #+begin_abstract 
 Un conjunto de cargas eléctricas del mismo signo en un conductor tienden a repelerse, de forma que se sitúan en una configuración de mínima energía. Esta configuración sitúa las cargas en la superficie del conductor.
 
@@ -30,7 +49,13 @@ El siguiente programa de *OpenSCAD* simula el comportamiento de varias cargas en
 Los poliedros generados presentan un alto grado se simetría. La forma final alcanzada parece depender únicamente del número de vértices iniciales, excepto por algunas simetrías especulares.
 #+end_abstract
 
+#+latex:  \newpage
+
 * Cálculo del poliedro
+
+Un conjunto de cargas eléctricas del mismo signo en un conductor tienden a repelerse, de forma que se sitúan en una configuración de mínima energía. Esta configuración sitúa las cargas en la superficie del conductor.
+
+
 
 ** Determinación de la posición de los vértices
 
@@ -38,15 +63,18 @@ Para determinar la posición final de las cargas dentro de la esfera se realiza 
 1. Se inicializa el conjunto $C$ de las $N$ cargas a posiciones $c_i$ aleatorias del espacio.
 2. Por cada carga $c_i \in C$:
    1. La fuerza de repulsión con cada una de las otras cargas $c_j$ se calcula como \[f_{ij} = K \cdot \frac{(c_i-c_j)}{|(c_i-c_j)|^2}\] La constante $K$ debería representar factores como el intervalo de tiempo de cada paso de la simulación y las masas de las cargas y su resistencia al movimiento, aunque en la práctica se ajusta a valores más altos para acelerar el resultado.
-   2. Se suman dichas fuerzas para encontrar la fuerza total resultante $f_i$ sobre $c_i$. $$f_i = \sum_{j \neq i}^{N} f_{ij}$$
+   2. Se suman dichas fuerzas para encontrar la fuerza total resultante $f_i$ sobre $c_i$. \[f_i = \sum_{j \neq i}^{N} f_{ij}\]
 3. Por cada carga $c_i$:
    1. Se calcula la nueva posición de la carga $i$ como $c'_i = c_i +  f_i$. 
-   2. La posición resultante se proyecta sobre una esfera de radio $r$ centrada en el origen $$c''_i = \frac{c'_i}{|c'_i|}$$
+   2. La posición resultante se proyecta sobre una esfera de radio $r$ centrada en el origen \[c''_i = \frac{c'_i}{|c'_i|}\]
 4. Las nuevas posiciones $c_i$ son los valores de $c''_i$
 5. Se itera desde el paso 2 hasta alcanzar el criterio de terminación.
    1. El criterio de terminación del bucle es la estabilidad de las posiciones $c_i$, comparando un umbral $\epsilon$ con $$\sum_{i}^{N} |c''_i - c_i|$$
 
 La figura [[fig:algoritmo]] muestra gráficamente el proceso del cálculo de la nueva posición de una carga, para dos dimensiones y tres cargas totales.
+
+
+#+latex: {\centering
 
 #+caption: Cálculo de la nueva posición $c''_1$ de la carga $c_1$ para un total de 3 cargas
 #+name: fig:algoritmo
@@ -54,6 +82,7 @@ La figura [[fig:algoritmo]] muestra gráficamente el proceso del cálculo de la 
 #+attr_latex: :width .3\linewidth
 [[file:algoritmo.png]]
 
+#+latex:  }
 ** Cubrimiento convexo de los vértices
 Tras a primera parte del cálculo, se obtienen las posiciones $c_i$ de los vértices del poliedro. Cada triplete de puntos define uno de estos dos tipos de plano: 
 - Una cara /exterior/ (o parte de una cara) de este poliedro.
@@ -63,13 +92,15 @@ El algoritmo utilizado para determinar las aristas exteriores del poliedro es el
 1. Se parte del conjunto $T$ de todos los tripletes \[ T = \{ \{c_i,c_j,c_k\} | 1 \leq i < j < k \leq N \}\]
 2. Por cada triplete $\{t_1,t_2,t_3\} \in T$
    1. Se calcula la ecuación del plano que contiene sus tres puntos $ax + by + cy + d = 0$, siendo $\times$ el producto vectorial y $\cdot$ el producto escalar. \[(a,b,c) = (t_2-t_1) \times (t_3, t_1)\]  \[d = -(a,b,c)\cdot t_1\]
-   2. Se sustituye cada punto $c_i \in (C \setminus \{t_1,t_2,t_3\})$  en la ecuación del plano obtenida. Si el triplete pertenece al cubrimiento convexo, todos los resultados tendrán el mismo signo (o $0$).
+   2. Se sustituye cada punto $c_i \in C \setminus \{t_1,t_2,t_3\}$  en la ecuación del plano obtenida. Si el triplete pertenece al cubrimiento convexo, todos los resultados tendrán el mismo signo (o $0$).
    3. Si el triplete pertenece al cubrimiento, sus aristas $\{t_1,t_2\}$, $\{t_2,t_3\}$ y $\{t_3,t_1\}$ se añaden al conjunto $A$ de aristas exteriores.  
 
       
 * Ejemplos de poliedros para $4\leq N \leq 24$
 
 Los ficheros =STL= de definición de cada poliedro pueden generarse desde la línea de comandos de *OpenSCAD*. El programa se invoca con los parámetros necesarios para fijar el número de vértices a calcular, así como la precisión del cálculo (variables =$fn= y =$fa=). El /shellscript/ del listado [[orgsrcblock1]] muestra un bucle con el cálculo de los poliedros desde 4 a 24 vértices.
+
+El fichero =electrostatic-polyhedron.scad= se describe en el apartado [[implementacion]].
 
 #+caption: Generación de los sólidos de ejemplo
 #+NAME: orgsrcblock1
@@ -173,26 +204,31 @@ Dado el grado de simetría del proceso, no es sorprendente que se consigan vario
 Para $8$ y $24$ vértices se obtienen poliedros con varias caras cuadradas, además de las triangulares. Este hecho no puede probarse con el proceso aquí presentado, ya que es un método iterativo de simulación, y se necesitaría una demostración matemática. 
 
 #+attr_latex: :width .5\linewidth :position [H]
+#+name: poliedro-8-1
 #+caption: $N=8$ genera un poliedro con dos caras cuadradas
 [[file:images/manual/poliedro-8-1.png]]
 
 
 #+attr_latex: :width .5\linewidth :position [H]
+#+name: poliedro-8-2
 #+caption: $N=8$ posee una proyección con contorno octogonal regular 
 [[file:images/manual/poliedro-8-2.png]]
 
 #+attr_latex: :width .5\linewidth :position [H]
+#+name: poliedro-24-1
 #+caption: $N=24$ consigue un poliedro con 6 caras cuadradas, que podría tallarse en un cubo
 [[file:images/manual/poliedro-24-1.png]]
 
 Para $17$ el poliedro generado no contiene cuadrados /por muy poco/. Aún así se incluye en este apartado por su simetría pentagonal. El autor ha bautizado esta forma geométrica como *pachiedro*.
 
 #+attr_latex: :width .5\linewidth :position [H]
+#+name: poliedro-17-1
 #+caption: $N=17$ ofrece una perspectiva con simetria pentagonal
 [[file:images/manual/poliedro-17-1.png]]
 
 
 #+attr_latex: :width .5\linewidth :position [H]
+#+name: poliedro-17-2
 #+caption: En esta vista de $N=17$ se observan uno de los /casi/ 5 cuadrados del poliedro de forma tangencial, abajo a la izquierda 
 [[file:images/manual/poliedro-17-2.png]]
 
@@ -200,7 +236,8 @@ Para $17$ el poliedro generado no contiene cuadrados /por muy poco/. Aún así s
 
 
 
-* Implementación
+
+* <<implementacion>>Implementación
 
 Los ficheros descritos en este apartado están disponibles en un repositorio *Github*
  - Repositorio: https://github.com/alvarogonzalezsotillo/polyhedron
