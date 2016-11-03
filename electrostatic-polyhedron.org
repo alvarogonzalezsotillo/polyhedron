@@ -36,7 +36,7 @@
 
 
 
-#+attr_html: :width 90%
+#+attr_html: :width 60%
 #+attr_latex: :width .9\linewidth
 [[file:images/artist/portada-1.png]]
 
