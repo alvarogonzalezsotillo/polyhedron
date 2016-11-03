@@ -93,7 +93,7 @@ Tras a primera parte del cálculo, se obtienen las posiciones $c_i$ de los vért
 El algoritmo utilizado para determinar las aristas exteriores del poliedro es el siguiente:
 1. Se parte del conjunto $T$ de todos los tripletes \[ T = \{ \{c_i,c_j,c_k\} | 1 \leq i < j < k \leq N \}\]
 2. Por cada triplete $\{t_1,t_2,t_3\} \in T$
-   1. Se calcula la ecuación del plano que contiene sus tres puntos $ax + by + cy + d = 0$, siendo $\times$ el producto vectorial y $\cdot$ el producto escalar. \[(a,b,c) = (t_2-t_1) \times (t_3, t_1)\]  \[d = -(a,b,c)\cdot t_1\]
+   1. Se calcula la ecuación del plano que contiene sus tres puntos $ax + by + cy + d = 0$, siendo $\times$ el producto vectorial y $\cdot$ el producto escalar. \[(a,b,c) = (t_2-t_1) \times (t_3-t_1)\]  \[d = -(a,b,c)\cdot t_1\]
    2. Se sustituye cada punto $c_i \in C \setminus \{t_1,t_2,t_3\}$  en la ecuación del plano obtenida. Si el triplete pertenece al cubrimiento convexo, todos los resultados tendrán el mismo signo (o $0$).
    3. Si el triplete pertenece al cubrimiento, sus aristas $\{t_1,t_2\}$, $\{t_2,t_3\}$ y $\{t_3,t_1\}$ se añaden al conjunto $A$ de aristas exteriores.  
 
