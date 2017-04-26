@@ -7,7 +7,7 @@ $fs=20;
 //
 LadoCubo=50;
 RadioCubo=LadoCubo*0.05;
-ArticulacionLargo=LadoCubo*0.15;
+ArticulacionLargo=LadoCubo*0.12;
 ArticulacionRadio=ArticulacionLargo*0.5;
 ArticulacionRebaje=1.0;
 ArticulacionToleranciaMM=0.1;
@@ -19,10 +19,33 @@ SEED=0;
 dummy=rands(0,1000,SEED);
      
 // PINTA UN PALO
-module palo(a,b,r){
+module Palo(a,b,r){
+     /*
+     difference(){
+          hull(){
+               translate(a) sphere(r);
+               translate(b) sphere(r);
+          }
+     
+          hull(){
+               translate(a) sphere(r/2.5);
+               translate(b) sphere(r/2.5);
+          }
+     }
+     */
+     redondeamiento = 0.9;
+     l = 2*r*redondeamiento;
+     s = 2*r - l;
+     d = -(l + s)/2 + redondeamiento/2;
      hull(){
-          translate(a) sphere(r);
-          translate(b) sphere(r);
+          translate(a) minkowski(){
+                    translate([d,d,d]) cube(l);
+                    sphere(s);
+          }
+          translate(b) minkowski(){
+                    translate([d,d,d]) cube(l);
+                    sphere(s);
+          }
      }
 }
 
@@ -143,13 +166,6 @@ module ArticulacionMacho(largo=ArticulacionLargo,ancho=ArticulacionRadio,rebaje=
      }
 }
 
-// PINTA UN PALO
-module Palo(a,b,r){
-     hull(){
-          translate(a) sphere(r);
-          translate(b) sphere(r);
-     }
-}
 
 
 module Cubo(lado=LadoCubo,radio=RadioCubo){
@@ -244,7 +260,7 @@ module DebugCuboConArticulaciones(lado=LadoCubo){
      intersection(){
           union(){
                color(c=[0.9,0.7,0.5]) PegaArticulacionesHembra() Cubo();
-               rotate([0,0,90+90]){
+               rotate([0,0,90+180*$t]){
                     color(c=[0.5,0.7,0.9]) PegaArticulacionesMacho() Cubo();
                }
           }
@@ -276,4 +292,5 @@ module DebugArticulacion(){
 //DebugArticulacion();
 
 DebugCuboConArticulaciones();
+
 
