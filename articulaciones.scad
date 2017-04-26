@@ -21,32 +21,53 @@ dummy=rands(0,1000,SEED);
 // PINTA UN PALO
 module Palo(a,b,r){
      /*
-     difference(){
-          hull(){
-               translate(a) sphere(r);
-               translate(b) sphere(r);
-          }
+       difference(){
+       hull(){
+       translate(a) sphere(r);
+       translate(b) sphere(r);
+       }
      
-          hull(){
-               translate(a) sphere(r/2.5);
-               translate(b) sphere(r/2.5);
-          }
-     }
+       hull(){
+       translate(a) sphere(r/2.5);
+       translate(b) sphere(r/2.5);
+       }
+       }
      */
      redondeamiento = 0.9;
-     l = 2*r*redondeamiento;
-     s = 2*r - l;
-     d = -(l + s)/2 + redondeamiento/2;
-     hull(){
-          translate(a) minkowski(){
+
+     difference(){
+          hull(){
+               l = 2*r*redondeamiento;
+               s = 2*r - l;
+               d = -(l + s)/2 + redondeamiento/2;
+
+               translate(a) minkowski(){
                     translate([d,d,d]) cube(l);
                     sphere(s);
-          }
-          translate(b) minkowski(){
+               }
+               translate(b) minkowski(){
                     translate([d,d,d]) cube(l);
                     sphere(s);
+               }
           }
+          hull(){
+               agujero = 1/2.5;
+               l = 2*(r*agujero)*redondeamiento;
+               s = 2*(r*agujero) - l;
+               d = -(l + s)/2 + redondeamiento/2;
+
+               translate(a) minkowski(){
+                    translate([d,d,d]) cube(l/2);
+                    sphere(s);
+               }
+               translate(b) minkowski(){
+                    translate([d,d,d]) cube(l/2);
+                    sphere(s);
+               }
+          }
+     
      }
+     
 }
 
 // DISTANCIA ENTRE PUNTOS TRIDIMENSIONALES
@@ -260,7 +281,7 @@ module DebugCuboConArticulaciones(lado=LadoCubo){
      intersection(){
           union(){
                color(c=[0.9,0.7,0.5]) PegaArticulacionesHembra() Cubo();
-               rotate([0,0,90+180*$t]){
+               rotate([0,0,180+(90)*$t]){
                     color(c=[0.5,0.7,0.9]) PegaArticulacionesMacho() Cubo();
                }
           }
