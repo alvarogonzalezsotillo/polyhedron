@@ -20,19 +20,6 @@ dummy=rands(0,1000,SEED);
      
 // PINTA UN PALO
 module Palo(a,b,r){
-     /*
-       difference(){
-       hull(){
-       translate(a) sphere(r);
-       translate(b) sphere(r);
-       }
-     
-       hull(){
-       translate(a) sphere(r/2.5);
-       translate(b) sphere(r/2.5);
-       }
-       }
-     */
      redondeamiento = 0.9;
 
      difference(){
@@ -50,26 +37,7 @@ module Palo(a,b,r){
                     sphere(s);
                }
           }
-          /*
-          hull(){
-               agujero = 1/2.5;
-               l = 2*(r*agujero)*redondeamiento;
-               s = 2*(r*agujero) - l;
-               d = -(l + s)/2 + redondeamiento/2;
-
-               translate(a) minkowski(){
-                    translate([d,d,d]) cube(l/2);
-                    sphere(s);
-               }
-               translate(b) minkowski(){
-                    translate([d,d,d]) cube(l/2);
-                    sphere(s);
-               }
-          }
-          */
-     
      }
-     
 }
 
 // DISTANCIA ENTRE PUNTOS TRIDIMENSIONALES
@@ -193,27 +161,34 @@ module ArticulacionMacho(largo=ArticulacionLargo,ancho=ArticulacionRadio,rebaje=
 
 module Cubo(lado=LadoCubo,radio=RadioCubo){
      l = lado-radio*2;
-     translate( [radio,radio,radio] ){
-          union(){
-               Palo([0,0,0],[0,0,l],radio);
-               Palo([0,0,0],[0,l,0],radio);
-               Palo([0,0,0],[l,0,0],radio);
+     vaciamiento = 2*radio/8;
+     traslado = radio - vaciamiento;
+     ladoVaciamiento = lado - traslado*2;
+     difference(){
+          translate( [radio,radio,radio] ){
+               union(){
+                    Palo([0,0,0],[0,0,l],radio);
+                    Palo([0,0,0],[0,l,0],radio);
+                    Palo([0,0,0],[l,0,0],radio);
 
-               Palo([l,l,l],[l,0,l],radio);
-               Palo([l,l,l],[l,l,0],radio);
-               Palo([l,l,l],[0,l,l],radio);
+                    Palo([l,l,l],[l,0,l],radio);
+                    Palo([l,l,l],[l,l,0],radio);
+                    Palo([l,l,l],[0,l,l],radio);
 
-               Palo([0,0,l],[0,l,l],radio);
-               Palo([0,0,l],[l,0,l],radio);
+                    Palo([0,0,l],[0,l,l],radio);
+                    Palo([0,0,l],[l,0,l],radio);
 
-               Palo([l,l,0],[0,l,0],radio);
-               Palo([l,l,0],[l,0,0],radio);
+                    Palo([l,l,0],[0,l,0],radio);
+                    Palo([l,l,0],[l,0,0],radio);
 
-               Palo([l,0,0],[l,0,l],radio);
+                    Palo([l,0,0],[l,0,l],radio);
 
-               Palo([0,l,0],[0,l,l],radio);
-
+                    Palo([0,l,0],[0,l,l],radio);
+               }
           }
+          translate([traslado,traslado,traslado]){
+               cube(ladoVaciamiento);
+          } 
      }
 }
 
