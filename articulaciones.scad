@@ -1,8 +1,8 @@
 // ESTAS CONSTANTES DEFINEN LA APARIENCIA
 // CUANTO MÁS ALTAS, LAS FORMAS SERÁN MAS REDONDEADAS
-$fn=20;
-$fa=20;
-$fs=20;
+$fn=60;
+$fa=60;
+$fs=60;
 
 //
 LadoCubo=50;
@@ -50,6 +50,7 @@ module Palo(a,b,r){
                     sphere(s);
                }
           }
+          /*
           hull(){
                agujero = 1/2.5;
                l = 2*(r*agujero)*redondeamiento;
@@ -65,6 +66,7 @@ module Palo(a,b,r){
                     sphere(s);
                }
           }
+          */
      
      }
      
@@ -277,6 +279,7 @@ module PegaArticulacionesMacho(lado=LadoCubo,ancho=ArticulacionRadio,tolerancia=
 }
 
 
+
 module DebugCuboConArticulaciones(lado=LadoCubo){
      intersection(){
           union(){
@@ -311,7 +314,19 @@ module DebugArticulacion(){
 
 
 //DebugArticulacion();
+//DebugCuboConArticulaciones();
 
-DebugCuboConArticulaciones();
+
+module CuboTipoA(lado=LadoCubo){
+
+     PegaArticulacionesMacho()
+          translate( [lado/2,lado/2,lado/2] )
+          rotate([90,0,0])
+          rotate([180,0,-90])
+          translate( [-lado/2,-lado/2,-lado/2] )
+          PegaArticulacionesHembra()
+          Cubo();
+}
 
 
+CuboTipoA();
