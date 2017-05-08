@@ -1,126 +1,18 @@
 // ESTAS CONSTANTES DEFINEN LA APARIENCIA
 // CUANTO MÁS ALTAS, LAS FORMAS SERÁN MAS REDONDEADAS
-$fn=60;
-$fa=60;
-$fs=60;
+$fn=30;
+$fa=30;
+$fs=30;
 
 //
 LadoCubo=50;
-RadioCubo=LadoCubo*0.05;
+RadioCubo=LadoCubo*0.15;
 ArticulacionLargo=LadoCubo*0.12;
 ArticulacionRadio=ArticulacionLargo*0.5;
 ArticulacionRebaje=1.0;
 ArticulacionToleranciaMM=0.1;
 ArticulacionSobresaleBola=0.25;
 
-
-// INICIALIZA NUMEROS ALEATORIOS
-SEED=0;
-dummy=rands(0,1000,SEED);
-     
-// PINTA UN PALO
-module Palo(a,b,r){
-     redondeamiento = 0.9;
-
-     difference(){
-          hull(){
-               l = 2*r*redondeamiento;
-               s = 2*r - l;
-               d = -(l + s)/2 + redondeamiento/2;
-
-               translate(a) minkowski(){
-                    translate([d,d,d]) cube(l);
-                    sphere(s);
-               }
-               translate(b) minkowski(){
-                    translate([d,d,d]) cube(l);
-                    sphere(s);
-               }
-          }
-     }
-}
-
-// DISTANCIA ENTRE PUNTOS TRIDIMENSIONALES
-function distancia(a,b) = 
-     let(
-          dx = a[0]-b[0],
-          dy = a[1]-b[1],
-          dz = a[2]-b[2]
-          )
-     sqrt(dx*dx + dy*dy + dz*dz);
-
-// EL MÓDULO ES LA LONGITUD DE UN VECTOR
-function modulo(vector) = distancia(vector,[0,0,0]);
-       
-// VECTOR CON LA MISMA DIRECCION, PERO CON UN MÓDULO DADO       
-function normaliza( p, radio=1 ) = radio * p / modulo(p);
-    
-
-// CREA UN PUNTO TRIDIMENSIONAL ALEATORIO CON COORDENADAS ENTRE -1000 Y 1000
-function puntoAleatorio() = rands(-1000,1000,3);
-
-
-// VER LA WIKIPEDIA
-function productoEscalar(v1,v2) =
-     suma( [ 
-                for(i=[0:len(v1)-1]) v1[i]*v2[i] 
-                ] );
-
-// VER LA WIKIPEDIA
-function productoVectorial(v1,v2) = 
-     [
-          v1[1]*v2[2] - v1[2]*v2[1],
-          - v1[0]*v2[2] + v1[2]*v2[0],
-          v1[0]*v2[1] - v1[1]*v2[0]
-          ];
-
-    
-// ECUACION DEL PLANO ax+by+cz+d=0
-// SI DA 0, ES DEL PLANO
-// SI DA >0, ES DE UN LADO DEL PLANO
-// SI DA <0, ES DEL OTRO LADO
-// SE DEVUELVE [[a,b,c],d] VECTOR NORMAL Y CONSTANTE
-function ecuacionDePlanoPorTresPuntos(p1,p2,p3) =
-     let(
-          puntoEnElPlano = p1,
-          vector1 = p2-p1,
-          vector2 = p3-p1,
-          normal = normaliza(productoVectorial(vector1,vector2)),
-          d = -productoEscalar(puntoEnElPlano,normal)
-          )
-     [normal,d];
-
-
-// RECIBE EL PLANO [[a,b,c],d] Y SUSTITUYE UN PUNTO
-// DARÁ CERO SI EL PUNTO ES DEL PLANO
-// DARA >0 O <0 SI ESTÁ EN UN LADO U OTRO DEL PLANO
-function sustituyeEcuacionPlano(ecuacion,punto) =
-     productoEscalar(ecuacion[0],punto) + ecuacion[1];
-    
-    
-  
-// SI UNA LISTA ES [[a,b],[c,d],[e,f]] la deja en [a,b,c,d,e,f]    
-// SI UNA LISTA ES [[[a,b],[c,d]],[[e,f],[g,h]]] la deja en [[a,b],[c,d],[e,f],[g,h]]
-function aplanaUnNivel(lista) = [
-     for( a = lista , b = a ) b
-     ];
-      
-     
-// DECIDE SI UN VALOR YA ESTA EN UNA LISTA
-function contenidoEnLista(v,lista,indice=0) =
-     lista[indice] == v ? 
-     true : (
-          indice>=len(lista) ?
-          false :
-          contenidoEnLista(v,lista,indice+1)
-          );
-     
-// AGREAGA UN VALOR A UNA LISTA
-function agregarALista(lista,valor) = [
-     for(i=[0:len(lista)])
-          i < len(lista) ? lista[i] : valor
-     ];
-      
 
 
 module ArticulacionHembra(largo=ArticulacionLargo,ancho=ArticulacionRadio,rebaje=ArticulacionRebaje,tolerancia=ArticulacionToleranciaMM){
@@ -157,39 +49,35 @@ module ArticulacionMacho(largo=ArticulacionLargo,ancho=ArticulacionRadio,rebaje=
      }
 }
 
-
-
 module Cubo(lado=LadoCubo,radio=RadioCubo){
-     l = lado-radio*2;
-     vaciamiento = 2*radio/8;
-     traslado = radio - vaciamiento;
-     ladoVaciamiento = lado - traslado*2;
-     difference(){
-          translate( [radio,radio,radio] ){
-               union(){
-                    Palo([0,0,0],[0,0,l],radio);
-                    Palo([0,0,0],[0,l,0],radio);
-                    Palo([0,0,0],[l,0,0],radio);
+     redondeamiento = lado*0.02;
+     echo("redondeamiento:",redondeamiento);
+     l = lado - 2*redondeamiento;
+     lAgujero = l-2*radio;
+     lVacio = (lAgujero + l)/2;
+     echo("lAgujero:",lAgujero);
+     
 
-                    Palo([l,l,l],[l,0,l],radio);
-                    Palo([l,l,l],[l,l,0],radio);
-                    Palo([l,l,l],[0,l,l],radio);
 
-                    Palo([0,0,l],[0,l,l],radio);
-                    Palo([0,0,l],[l,0,l],radio);
-
-                    Palo([l,l,0],[0,l,0],radio);
-                    Palo([l,l,0],[l,0,0],radio);
-
-                    Palo([l,0,0],[l,0,l],radio);
-
-                    Palo([0,l,0],[0,l,l],radio);
+     translate([lado/2,lado/2,lado/2]){
+          difference(){
+               
+               minkowski(){
+                    translate([-l/2,-l/2,-l/2])cube(l);
+                    sphere(redondeamiento);
                }
+          
+               scale(v=[10,1,1]) translate([-lAgujero/2,-lAgujero/2,-lAgujero/2]) cube(lAgujero);
+               scale(v=[1,10,1]) translate([-lAgujero/2,-lAgujero/2,-lAgujero/2]) cube(lAgujero);
+               scale(v=[1,1,10]) translate([-lAgujero/2,-lAgujero/2,-lAgujero/2]) cube(lAgujero);
+
+               translate([-lVacio/2,-lVacio/2,-lVacio/2]) cube(lVacio);
           }
-          translate([traslado,traslado,traslado]){
-               cube(ladoVaciamiento);
-          } 
      }
+
+
+     
+     
 }
 
 
@@ -288,20 +176,22 @@ module DebugArticulacion(){
 }
 
 
+
 //DebugArticulacion();
-//DebugCuboConArticulaciones();
+DebugCuboConArticulaciones();
 
 
 module CuboTipoA(lado=LadoCubo){
 
-     PegaArticulacionesMacho()
+     /*PegaArticulacionesMacho()*/
           translate( [lado/2,lado/2,lado/2] )
           rotate([90,0,0])
           rotate([180,0,-90])
           translate( [-lado/2,-lado/2,-lado/2] )
           PegaArticulacionesHembra()
-          Cubo();
+          Cubo(lado);
 }
 
+//Cubo();
 
-CuboTipoA();
+//CuboTipoA();
