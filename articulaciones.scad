@@ -1,12 +1,12 @@
 // ESTAS CONSTANTES DEFINEN LA APARIENCIA
 // CUANTO MÁS ALTAS, LAS FORMAS SERÁN MAS REDONDEADAS
-$fn=30;
-$fa=30;
-$fs=30;
+$fn=60;
+$fa=60;
+$fs=60;
 
 //
-LadoCubo=50;
-RadioCubo=LadoCubo*0.15;
+LadoCubo=57/2;
+RadioCubo=LadoCubo*0.125;
 ArticulacionLargo=LadoCubo*0.12;
 ArticulacionRadio=ArticulacionLargo*0.5;
 ArticulacionRebaje=1.0;
@@ -178,12 +178,12 @@ module DebugArticulacion(){
 
 
 //DebugArticulacion();
-DebugCuboConArticulaciones();
+//DebugCuboConArticulaciones();
 
 
 module CuboTipoA(lado=LadoCubo){
 
-     /*PegaArticulacionesMacho()*/
+     PegaArticulacionesHembra()
           translate( [lado/2,lado/2,lado/2] )
           rotate([90,0,0])
           rotate([180,0,-90])
@@ -192,6 +192,20 @@ module CuboTipoA(lado=LadoCubo){
           Cubo(lado);
 }
 
+module CuboTipoB(lado=LadoCubo){
+
+     PegaArticulacionesMacho()
+          translate( [lado/2,lado/2,lado/2] )
+          rotate([-90,0,0])
+          rotate([180,0,-90])
+          translate( [-lado/2,-lado/2,-lado/2] )
+          PegaArticulacionesMacho()
+          Cubo(lado);
+}
+
+
 //Cubo();
 
-//CuboTipoA();
+translate([LadoCubo,LadoCubo,0]) CuboTipoA();
+
+translate([-LadoCubo,-LadoCubo,0]) CuboTipoB();
